@@ -25,7 +25,9 @@ Route::post('password/reset', 'LoginControllerAPI@resetPassword');
 
 //USER CRUD
 Route::post('register', 'UserControllerAPI@store');
-
 Route::post('activate', 'UserControllerAPI@activate');
+Route::get('users', 'UserControllerAPI@getUsers');
+Route::get('blockedusers', 'UserControllerAPI@getBlockedUsers');
+Route::get('newusers', 'UserControllerAPI@getNewUsers');
 
 

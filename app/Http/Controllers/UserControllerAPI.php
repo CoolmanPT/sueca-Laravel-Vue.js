@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Activation;
+use App\Http\Resources\UserResource;
 use App\Mail\ActivateAccount;
 use App\User;
 use Illuminate\Http\Request;
@@ -104,6 +105,34 @@ class UserControllerAPI extends Controller
             return response()->json(['msg' => 'Utilizador activado.']);
         } else {
             return response()->json(['msg' => 'Request inválido.'], 400);
+        }
+    }
+
+
+
+    public function getUsers(Request $request){
+        if ($request->wantsJson()){
+            $users = User::where('admin',0)->get();
+            return UserResource::collection($users);
+        }else{
+            return response()->json(['message' => 'Request inválido.'], 400);
+        }
+    }
+
+    public function getBlockedUsers(Request $request){
+        if ($request->wantsJson()){
+            $users = User::where('admin',0)->where('blocked', 1)->get();
+            return UserResource::collection($users);
+        }else{
+            return response()->json(['message' => 'Request inválido.'], 400);
+        }
+    }
+    public function getNewUsers(Request $request){
+        if ($request->wantsJson()){
+            $users = User::where('admin',0)->where('blocked', 0)->where('activated', 0)->get();
+            return UserResource::collection($users);
+        }else{
+            return response()->json(['message' => 'Request inválido.'], 400);
         }
     }
 }
