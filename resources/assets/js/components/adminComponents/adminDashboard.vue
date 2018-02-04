@@ -3,7 +3,7 @@
         <navbar-component></navbar-component>
 
         <div class="page-content d-flex align-items-stretch">
-            <sidebar-component></sidebar-component>
+            <sidebar-component  :user="user"></sidebar-component>
 
 
             <div class="content-inner">
@@ -646,15 +646,14 @@
 
 
                 <!-- Page Footer-->
-                <footer class="admin-footer footer--fixed fixed-bottom">
+                <footer class="main-footer">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-6">
-                                <p>Recurso DAD - Sueca</p>
+                                <p>Your company &copy; 2017-2019</p>
                             </div>
                             <div class="col-sm-6 text-right">
-                                <p>Bruno Pereira - 2151219 ||
-                                </p>
+                                <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a></p>
                                 <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
                             </div>
                         </div>
@@ -664,3 +663,39 @@
         </div>
     </div>
 </template>
+<script type="text/javascript">
+
+    export default {
+        data: function(){
+
+            return {
+                user:'',
+
+            }
+        },
+        methods: {
+            getUser: function () {
+                axios.get('/api/user')
+                    .then((response) => {
+                        this.user = response.data;
+                        console.log(this.user);
+
+                    })
+                    .catch((error) => {
+
+                    });
+            },
+        },
+        computed: {
+
+        },
+        components: {
+
+        },
+        created: function(){
+            this.getUser();
+        }
+
+
+    }
+</script>

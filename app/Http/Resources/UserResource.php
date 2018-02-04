@@ -20,6 +20,8 @@ class UserResource extends Resource
             'email' => $this->email,
             'nickname' => $this->nickname,
             'avatar' => $this->avatar,
+            'blocked' => $this->blocked,
+            'activated' => $this->activated,
             'reason_blocked' => $this->reason_blocked,
             'reason_reactivated' => $this->reason_reactivated,
             'created_at' => $this->created_at,

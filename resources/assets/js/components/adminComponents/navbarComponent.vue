@@ -6,51 +6,23 @@
                 <div class="navbar-holder d-flex align-items-center justify-content-between">
                     <!-- Navbar Header-->
                     <div class="navbar-header">
-                        <!-- Navbar Brand --><a href="index.html" class="navbar-brand">
-                        <div class="brand-text brand-big"><span>Recurso </span><strong>Sueca</strong></div>
-                        <div class="brand-text brand-small"><strong>DAD</strong></div></a>
-                        <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+                        <router-link to="dashboard"><div class="brand-text brand-big h4"><span>Recurso Sueca</span></div>
+                            <div class="brand-text brand-small"><strong>Sueca</strong></div>
+                        </router-link>
+                        <!-- Toggle Button--><a v-on:click.prevent="toggleSidebar" class="menu-btn active"><span></span><span></span><span></span></a>
                     </div>
                     <!-- Navbar Menu -->
                     <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-                        <!-- Search-->
-                        <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i class="icon-search"></i></a></li>
-                        <!-- Notifications-->
-                        <li class="nav-item dropdown"> <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-bell-o"></i><span class="badge bg-red">12</span></a>
-                            <ul aria-labelledby="notifications" class="dropdown-menu">
-                                <li><a rel="nofollow" href="#" class="dropdown-item">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-envelope bg-green"></i>You have 6 new messages </div>
-                                        <div class="notification-time"><small>4 minutes ago</small></div>
-                                    </div></a></li>
-                                <li><a rel="nofollow" href="#" class="dropdown-item">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-twitter bg-blue"></i>You have 2 followers</div>
-                                        <div class="notification-time"><small>4 minutes ago</small></div>
-                                    </div></a></li>
-                                <li><a rel="nofollow" href="#" class="dropdown-item">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-upload bg-orange"></i>Server Rebooted</div>
-                                        <div class="notification-time"><small>4 minutes ago</small></div>
-                                    </div></a></li>
-                                <li><a rel="nofollow" href="#" class="dropdown-item">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-twitter bg-blue"></i>You have 2 followers</div>
-                                        <div class="notification-time"><small>10 minutes ago</small></div>
-                                    </div></a></li>
-                                <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong>view all notifications                                            </strong></a></li>
-                            </ul>
-                        </li>
-                        <!-- Messages                        -->
+
+                        <!-- SETTINGS                       -->
                         <li class="nav-item dropdown"> <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-cogs"></i></a>
                             <ul aria-labelledby="" class="dropdown-menu">
-                                <li class="align-items-center align-content-center"><router-link to="/profile" class="dropdown-item d-flex align-items-center align-content-center"> <div class="msg-profile align-items-center align-content-center d-flex"> <i class="fa fa-user fa-fw"></i></div>
+                                <li class="align-items-center align-content-center"><router-link to="/profile" class="dropdown-item d-flex align-items-center align-content-center"> <div class="align-items-center align-content-center d-flex"> <i class="fa fa-user fa-fw bg-dark"></i></div>
                                     <div class="msg-body">
                                         <h6 class="">Profile</h6></div></router-link></li>
-                                <li class="align-items-center align-content-center"><router-link to="/platform" class="dropdown-item d-flex align-items-center align-content-center"> <div class="msg-profile align-items-center align-content-center d-flex"> <i class="fa fa-lock fa-fw"></i></div>
+                                <li class="align-items-center align-content-center"><router-link to="/settings" class="dropdown-item d-flex align-items-center align-content-center"> <div class=" align-items-center align-content-center d-flex"> <i class="fa fa-lock fa-fw bg-secondary"></i></div>
                                     <div class="msg-body">
-                                        <h6 class="">Platform</h6></div></router-link></li>
-
+                                        <h6 class="">Settings</h6></div></router-link></li>
 
                             </ul>
                         </li>
@@ -67,9 +39,37 @@
 
     export default {
         data: function(){
+
             return {}
         },
         methods: {
+            goToHome(){
+                this.$router.push({ path: '/dashboard'})
+            },
+            toggleSidebar() {
+                    $('.menu-btn').toggleClass('active');
+
+                    $('.side-navbar').toggleClass('shrinked');
+                    $('.content-inner').toggleClass('active');
+                    $(document).trigger('sidebarChanged');
+
+                    if ($(window).outerWidth() > 900) {
+                        console.log("test");
+                        if ($('.menu-btn').hasClass('active')) {
+                            $('.navbar-header .brand-small').hide();
+                            $('.navbar-header .brand-big').show();
+                        } else {
+                            console.log("test2");
+                            $('.navbar-header .brand-small').show();
+                            $('.navbar-header .brand-big').hide();
+                        }
+                    }
+
+                    if ($(window).outerWidth() < 1183) {
+                        $('.navbar-header .brand-small').show();
+                    }
+
+            },
             logout: function () {
                 axios.post('/api/logout')
                     .then((response) => {
@@ -90,4 +90,6 @@
 
 
     }
+
+
 </script>

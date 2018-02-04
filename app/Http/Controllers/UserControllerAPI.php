@@ -6,11 +6,13 @@ use App\Activation;
 use App\Http\Resources\UserResource;
 use App\Mail\ActivateAccount;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Mail\TransportManager;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 use Swift_Mailer;
 use Validator;
 use Illuminate\Support\Facades\Mail;
@@ -135,4 +137,76 @@ class UserControllerAPI extends Controller
             return response()->json(['message' => 'Request inválido.'], 400);
         }
     }
+
+    //UPDATE EMAIL
+    public function updateEmail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email'
+        ]);
+
+        if ($request->wantsJson() && !$validator->fails()) {
+            $checkEmailExists = User::where('id', '<>', $request->user()->id)
+                ->where('email', $request->input('email'))
+                ->first();
+
+            if ($checkEmailExists) {
+                return response()->json(
+                    ['errorCode' => 1, 'msg' => 'Email in Use.'], 400);
+            }
+            $request->user()->update($request->all());
+            return response()->json(['msg' => 'Email Saved.']);
+        } else {
+            return response()->json(['errorCode' => -1, 'msg' => 'Invalid Request.'], 400);
+        }
+    }
+
+
+
+    public function updatePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'currentPassword' => 'required',
+            'newPassword' => 'required'
+        ]);
+
+        if ($request->wantsJson() && !$validator->fails()) {
+
+
+            if (!Hash::check($request->input('currentPassword'), $request->user()->password)) {
+                return response()->json(
+                    ['errorCode' => 1, 'msg' => 'Password incorrecta.'], 400);
+            }
+
+            $request->user()->password = Hash::make($request->input('newPassword'));
+            $request->user()->save();
+
+            return response()->json(['msg' => 'Password alterada com sucesso.']);
+        } else {
+            return response()->json(['errorCode' => -1, 'msg' => 'Request inválido.'], 400);
+        }
+    }
+
+    public function updateAvatar(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image64:jpeg,jpg,png'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['msg'=>$validator->errors()]);
+        } else {
+
+            $imageData = $request->get('image');
+            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+            Image::make($request->get('image'))->resize(150,150)->save(public_path('img/avatars/').$fileName);
+            $request->user()->avatar = 'img/avatars/' . $fileName;
+            $request->user()->save();
+            return response()->json(['user'=>$request->user,'error'=>false]);
+        }
+
+
+    }
+
+
 }

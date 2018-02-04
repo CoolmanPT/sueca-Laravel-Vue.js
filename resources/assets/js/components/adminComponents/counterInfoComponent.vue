@@ -1,61 +1,50 @@
 <template>
     <div>
-        <section class="dashboard-counts no-padding-bottom">
-            <div class="container-fluid">
-                <div class="row bg-white has-shadow">
-                    <!-- Item -->
-                    <div class="col-xl-3 col-sm-6">
-                        <div class="item d-flex align-items-center">
-                            <div class="icon bg-violet"><i class="icon-user"></i></div>
-                            <div class="title"><span>Registered<br>Players</span>
-                            </div>
-                            <div class="number" v-cloak ><strong>{{ numPlayers }}</strong></div>
-                        </div>
-                    </div>
-                    <!-- Item -->
-                    <div class="col-xl-3 col-sm-6">
-                        <div class="item d-flex align-items-center">
-                            <div class="icon bg-red"><i class="icon-padnote"></i></div>
-                            <div class="title"><span>Blocked<br>Users</span>
+       <section class="dashboard-header">
+           <div class="container-fluid">
+               <div class="row">
+                   <div class="statistics col-lg-3 col-12">
+                       <div class="statistic d-flex align-items-center bg-white has-shadow">
+                           <div class="icon bg-violet"><i class="fa fa-users fa-fw"></i></div>
+                           <div class="text"><span>Registered Players</span> </div>
+                           <strong class="text-right ml-auto">{{ numPlayers }}</strong>
+                       </div>
 
-                            </div>
-                            <div class="number" v-cloak><strong>{{ blockedPlayers }}</strong></div>
-                        </div>
-                    </div>
-                    <!-- Item -->
-                    <div class="col-xl-3 col-sm-6">
-                        <div class="item d-flex align-items-center">
-                            <div class="icon bg-green"><i class="icon-bill"></i></div>
-                            <div class="title"><span>New<br>Users</span>
-                            </div>
-                            <div class="number" v-cloak><strong>{{ newPlayers }}</strong></div>
-                        </div>
-                    </div>
-                    <!-- Item -->
-                    <div class="col-xl-3 col-sm-6">
-                        <div class="item d-flex align-items-center">
-                            <div class="icon bg-orange"><i class="icon-check"></i></div>
-                            <div class="title"><span>Games<br>Today</span>
 
-                            </div>
-                            <div class="number" v-cloak><strong>{{ gamesPerDay }}</strong></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                       <div class="statistic d-flex align-items-center bg-white has-shadow">
+                           <div class="icon bg-red"><i class="fa fa-lock fa-fw"></i></div>
+                           <div class="text"><span>Blocked Users</span></div>
+                           <strong class="text-right ml-auto">{{ blockedPlayers }}</strong>
+                       </div>
+
+                       <div class="statistic d-flex align-items-center bg-white has-shadow">
+                           <div class="icon bg-green"><i class="fa fa-dollar fa-fw"></i></div>
+                           <div class="text"><span>NewUsers</span></div>
+                           <strong  class="text-right ml-auto">{{ newPlayers }}</strong>
+                       </div>
+
+                       <div class="statistic d-flex align-items-center bg-white has-shadow">
+                           <div class="icon bg-orange"><i class="fa fa-play fa-fw"></i></div>
+                           <div class="text"><span>Games played today</span></div>
+                           <strong class="text-right ml-auto">{{ gamesPerDay }}</strong>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </section>
+
     </div>
 </template>
 <script type="text/javascript">
 
     export default {
-        data: function(){
+        data: function () {
             return {
-                users: '',
-                numPlayers: '',
-                blockedPlayers: '',
-                newPlayers: '',
-                gamesPerDay: '',
+                users: [],
+                numPlayers: 0,
+                blockedPlayers: 0,
+                newPlayers: 0,
+                gamesPerDay: 0,
             }
         },
         methods: {
@@ -64,31 +53,37 @@
                     .then(response => {
                         this.users = response.data.data;
                         this.numPlayers = this.users.length;
+                        this.getBlockedUsers();
+                        this.getNewUsers();
                     });
+
             },
             getBlockedUsers: function () {
-                axios.get('api/blockedusers')
-                    .then(response => {
-                        this.blockedPlayers = response.data.data.length;
-                    });
+                let blocked = 0;
+                this.users.forEach(function (user, key) {
+                    if (user.blocked === 1) {
+                        blocked++;
+                    }
+                });
+
+                this.blockedPlayers = blocked;
+
             },
             getNewUsers: function () {
-                axios.get('api/newusers')
-                    .then(response => {
-                        this.newPlayers = response.data.data.length;
-                    });
+                let newp = 0;
+                this.users.forEach(function (user, key) {
+                    if (user.activated === 0 && user.blocked === 0) {
+                        newp++;
+                    }
+                });
+
+                this.newPlayers = newp;
             },
         },
-        computed: {
-
-        },
-        components: {
-
-        },
-        mounted: function(){
+        computed: {},
+        components: {},
+        mounted: function () {
             this.getUsers();
-            this.getNewUsers();
-            this.getBlockedUsers();
         }
 
 

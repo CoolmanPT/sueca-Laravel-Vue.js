@@ -4,7 +4,7 @@
         <div class="sidebar-header d-flex align-items-center">
             <div class="avatar"><img :src="user.avatar" alt="..." class="img-fluid rounded-circle"></div>
             <div class="title">
-                <h1 class="h4">{{ user.nickName }}</h1>
+                <h1 class="h4">{{ user.nickname }}</h1>
                 <p>{{ user.name }}</p>
             </div>
         </div>
@@ -20,29 +20,16 @@
 <script type="text/javascript">
 
     export default {
+        props: ['user'],
         data: function(){
+
             return {
-                user:{
-                    nickName: '',
-                    name:'',
-                    avatar: '',
-                },
+
 
             }
         },
         methods: {
-            getUser: function () {
-                axios.get('/api/user')
-                    .then((response) => {
-                        this.user.nickName = response.data.nickname;
-                        this.user.avatar = response.data.avatar;
-                        this.user.name = response.data.name;
-                        console.log(response.data.name);
-                    })
-                    .catch((error) => {
 
-                    });
-            },
         },
         computed: {
 
@@ -51,7 +38,6 @@
 
         },
         created: function(){
-            this.getUser();
         }
 
 

@@ -36,18 +36,21 @@ const users = Vue.component('users-component', require('./components/adminCompon
 const decks = Vue.component('decks-component', require('./components/adminComponents/decksComponent.vue'));
 const newDeck = Vue.component('new-deck-component', require('./components/adminComponents/newDeckComponent.vue'));
 const addCard = Vue.component('add-card-component', require('./components/adminComponents/addCardComponent.vue'));
+const adminProfile = Vue.component('admin-profile-component', require('./components/adminComponents/adminProfile.vue'));
 Vue.component('platform-email-settings-component', require('./components/adminComponents/platform-email_settingsComponent.vue'));
 Vue.component('admin-change-email-component', require('./components/adminComponents/admin-change_emailComponent.vue'));
 Vue.component('admin-change-password-component', require('./components/adminComponents/admin-change_passwordComponent.vue'));
 Vue.component('navbar-component', require('./components/adminComponents/navbarComponent.vue'));
 Vue.component('sidebar-component', require('./components/adminComponents/sidebarComponent.vue'));
-Vue.component('counter-info-component', require('./components/adminComponents/counterInfoComponent.vue'))
+Vue.component('counter-info-component', require('./components/adminComponents/counterInfoComponent.vue'));
+Vue.component('admin-avatar-change-component', require('./components/adminComponents/adminAvatarChangeComponent.vue'));
 
 /*ROUTES*/
 const routes = [
     { path: '/', redirect: 'dashboard' },
     { path: '/dashboard', component: dashboard },
     { path: '/settings', component: settings },
+    { path: '/profile', component: adminProfile },
     { path: '/users', component: users },
     { path: '/decks', component: decks },
     { path: '/newDeck', component: newDeck},

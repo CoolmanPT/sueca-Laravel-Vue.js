@@ -1,6 +1,8 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +28,15 @@ Route::post('password/reset', 'LoginControllerAPI@resetPassword');
 //USER CRUD
 Route::post('register', 'UserControllerAPI@store');
 Route::post('activate', 'UserControllerAPI@activate');
-Route::get('users', 'UserControllerAPI@getUsers');
-Route::get('blockedusers', 'UserControllerAPI@getBlockedUsers');
-Route::get('newusers', 'UserControllerAPI@getNewUsers');
+
+Route::middleware('auth:api')->get('users', 'UserControllerAPI@getUsers');
+Route::middleware('auth:api','isAdmin')->get('blockedusers', 'UserControllerAPI@getBlockedUsers');
+Route::middleware('auth:api', 'isAdmin')->get('newusers', 'UserControllerAPI@getNewUsers');
+Route::middleware('auth:api', 'isAdmin')->get('settings', 'ConfigControllerAPI@getPlatformData');
+Route::middleware('auth:api', 'isAdmin')->post('settings/update', 'ConfigControllerAPI@update');
+Route::middleware('auth:api', 'isAdmin')->post('admin/email/update', 'UserControllerAPI@updateEmail');
+Route::middleware('auth:api', 'isAdmin')->post('admin/password/update', 'UserControllerAPI@updatePassword');
+Route::middleware('auth:api', 'isAdmin')->post('/admin/upload/avatar', 'UserControllerAPI@updateAvatar');
+
 
 
