@@ -280,5 +280,56 @@ class UserControllerAPI extends Controller
 
 	}
 
+	public function deletePlayer(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'reason' => 'required|string'
+		]);
+		if ($request->wantsJson() && !$validator->fails()) {
+			try {
+				$user = $request->get('user1');
+				$u = User::findOrFail($user['id']);
+				$msg = 'Account deleted';
+				$reason = nl2br($request->input('reason'));
+				if ($reason != null) {
+					$msg .= 'Reason: ' . $reason;
+				}
+
+
+				$config = DB::table('config')->first();
+				$mailConfigs = json_decode($config->platform_email_properties);
+
+				config([
+					'mail.host' => $mailConfigs->host,
+					'mail.port' => $mailConfigs->port,
+					'mail.encryption' => $mailConfigs->encryption,
+					'mail.username' => $config->platform_email,
+					'mail.password' => $mailConfigs->password
+				]);
+
+				$app = App::getInstance();
+				$app->singleton('swift.transport', function ($app) {
+					return new TransportManager($app);
+				});
+				$mailer = new Swift_Mailer($app['swift.transport']->driver());
+				Mail::setSwiftMailer($mailer);
+
+				Mail::to($u->email)->queue(new ChangeState($msg, $config->platform_email));
+				$u->delete();
+
+				return response()->json(['msg' => 'User deleted']);
+			} catch (\Exception $e) {
+				print_r($e);
+				exit();
+				return response()->json(['msg' => 'Problem sending email.'], 400);
+			}
+
+
+		} else {
+			return response()->json(['msg' => 'Invalid Request.'], 400);
+		}
+
+	}
+
 
 }

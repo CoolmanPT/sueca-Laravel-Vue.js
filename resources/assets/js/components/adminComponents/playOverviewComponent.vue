@@ -13,6 +13,7 @@
                     <button @click="changeStatus(user)" v-if="user.blocked === 1" class="btn btn-success">Unblock
                     </button>
                     <button @click="changeStatus(user)" v-else class="btn btn-danger">Block</button>
+                    <button @click="deletePlayer(user)" class="btn btn-primary">Delete</button>
                 </div>
                 <div class="col-lg-7" v-if="showReasonbox === 1">
                     <textarea v-model="reason" placeholder="reason" class=" form-control" rows="5" cols="4"></textarea>
@@ -54,6 +55,17 @@
             },
             changeStatus(user) {
                 this.showReasonbox = 1;
+
+            },
+            deletePlayer(user) {
+                console.log(user.id);
+                axios.delete('api/users/' + user.id + '/' + this.reason)
+                    .then(response => {
+                        this.$parent.$parent.getUsers();
+                        this.success = true;
+                        this.successMessage = "user deleted!";
+                        setTimeout(() => this.success = false, 3000);
+                    });
 
             },
             sendStatus() {

@@ -36,6 +36,9 @@ Route::middleware('auth:api', 'isAdmin')->post('admin/email/update', 'UserContro
 Route::middleware('auth:api', 'isAdmin')->post('admin/password/update', 'UserControllerAPI@updatePassword');
 Route::middleware('auth:api', 'isAdmin')->post('/admin/upload/avatar', 'UserControllerAPI@updateAvatar');
 Route::middleware('auth:api', 'isAdmin')->post('/admin/user/state', 'UserControllerAPI@changeState');
+Route::middleware('auth:api', 'isAdmin')->delete('users/{id}/{reason?}', 'UserControllerAPI@deletePlayer');
+
+Route::middleware('auth:api', 'isAdmin')->get('decks', 'DeckControllerAPI@getDecks');
 
 
 

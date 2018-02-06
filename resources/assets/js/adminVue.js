@@ -45,6 +45,9 @@ Vue.component('counter-info-component', require('./components/adminComponents/co
 Vue.component('admin-avatar-change-component', require('./components/adminComponents/adminAvatarChangeComponent.vue'));
 Vue.component('users-list-component', require('./components/adminComponents/usersListComponent.vue'));
 Vue.component('player-overview-component', require('./components/adminComponents/playOverviewComponent.vue'));
+Vue.component('decks-list-component', require('./components/adminComponents/decksListComponent.vue'));
+Vue.component('deck-overview-component', require('./components/adminComponents/deckOverviewComponent.vue'));
+
 
 /*ROUTES*/
 const routes = [

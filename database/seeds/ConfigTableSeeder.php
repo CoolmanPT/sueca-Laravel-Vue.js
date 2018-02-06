@@ -72,8 +72,22 @@ class ConfigTableSeeder extends Seeder
         ];
 
         DB::table('users')->insert($user);
-    }
 
+
+	    $deck = [
+		    'name' => "default",
+		    'hidden_face_image_path' => "img/cards/semFace.png",
+		    'active' => 1,
+		    'complete' => '1',
+		    'created_at' => Carbon\Carbon::now()->subMonths(2)
+	    ];
+
+	    DB::table('decks')->insert($deck);
+
+	    $path = 'resources/cartas.sql';
+	    DB::unprepared(file_get_contents($path));
+
+    }
 
 
 }
