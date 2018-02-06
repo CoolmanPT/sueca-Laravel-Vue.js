@@ -1,8 +1,6 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +35,7 @@ Route::middleware('auth:api', 'isAdmin')->post('settings/update', 'ConfigControl
 Route::middleware('auth:api', 'isAdmin')->post('admin/email/update', 'UserControllerAPI@updateEmail');
 Route::middleware('auth:api', 'isAdmin')->post('admin/password/update', 'UserControllerAPI@updatePassword');
 Route::middleware('auth:api', 'isAdmin')->post('/admin/upload/avatar', 'UserControllerAPI@updateAvatar');
+Route::middleware('auth:api', 'isAdmin')->post('/admin/user/state', 'UserControllerAPI@changeState');
 
 
 

@@ -29,4 +29,7 @@ nav.side-navbar.shrinked ul li a i {
   padding: 20px 10px;
 }
 
+.collapse-row.collapsed + tr {
+  display: none;
+}
 

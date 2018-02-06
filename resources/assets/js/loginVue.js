@@ -10,8 +10,7 @@ window.Popper = require('popper.js').default;
 require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import BootstrapVue from 'bootstrap-vue';
-Vue.use(BootstrapVue);
+
 Vue.use(VueRouter);
 
 window.Vue = require('vue');

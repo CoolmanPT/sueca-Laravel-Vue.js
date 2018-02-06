@@ -10,8 +10,7 @@ window.Popper = require('popper.js').default;
 require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import BootstrapVue from 'bootstrap-vue';
-Vue.use(BootstrapVue);
+
 Vue.use(VueRouter);
 
 window.Vue = require('vue');
@@ -44,6 +43,8 @@ Vue.component('navbar-component', require('./components/adminComponents/navbarCo
 Vue.component('sidebar-component', require('./components/adminComponents/sidebarComponent.vue'));
 Vue.component('counter-info-component', require('./components/adminComponents/counterInfoComponent.vue'));
 Vue.component('admin-avatar-change-component', require('./components/adminComponents/adminAvatarChangeComponent.vue'));
+Vue.component('users-list-component', require('./components/adminComponents/usersListComponent.vue'));
+Vue.component('player-overview-component', require('./components/adminComponents/playOverviewComponent.vue'));
 
 /*ROUTES*/
 const routes = [
@@ -96,3 +97,4 @@ $('#toggle-btn').on('click', function (e) {
         $('.navbar-header .brand-small').show();
     }
 });
+
