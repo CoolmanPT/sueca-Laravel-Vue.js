@@ -16,8 +16,8 @@
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
         "laravel-mix-stylus": "^0.3.0",
-        "lodash": "^4.17.4",
-        "popper.js": "^1.12.9",
+        "lodash": "^4.17.5",
+        "popper.js": "^1.13.0",
         "vue": "^2.5.7",
         "vue-router": "^3.0.1"
     },

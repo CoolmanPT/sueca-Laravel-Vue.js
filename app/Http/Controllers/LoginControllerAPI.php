@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\DB;
 
 
 define('YOUR_SERVER_URL', 'http://recurso.rip');
-define('CLIENT_ID', '2');
-define('CLIENT_SECRET', '5sEoB7ZQi8tqvX3gH38hEPQ00CZdJkqD51eJh3k7');
+define('CLIENT_ID', '4');
+define('CLIENT_SECRET', 'vpL26O6HDTgllJajc5xeDU5FsHVhYzZ5nDdGwn6c');
 
 class LoginControllerAPI extends Controller
 {

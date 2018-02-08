@@ -23,6 +23,9 @@ Route::middleware('auth:api')->post('logout','LoginControllerAPI@logout');
 Route::post('password/email', 'LoginControllerAPI@sendResetLinkEmail');
 Route::post('password/reset', 'LoginControllerAPI@resetPassword');
 
+//STATISTICS
+Route::get('statistics', 'StatisticsControllerAPI@statistics');
+
 //USER CRUD
 Route::post('register', 'UserControllerAPI@store');
 Route::post('activate', 'UserControllerAPI@activate');
@@ -36,7 +39,7 @@ Route::middleware('auth:api', 'isAdmin')->post('admin/email/update', 'UserContro
 Route::middleware('auth:api', 'isAdmin')->post('admin/password/update', 'UserControllerAPI@updatePassword');
 Route::middleware('auth:api', 'isAdmin')->post('/admin/upload/avatar', 'UserControllerAPI@updateAvatar');
 Route::middleware('auth:api', 'isAdmin')->post('/admin/user/state', 'UserControllerAPI@changeState');
-Route::middleware('auth:api', 'isAdmin')->delete('users/{id}/{reason?}', 'UserControllerAPI@deletePlayer');
+Route::middleware('auth:api', 'isAdmin')->delete('/admin/user/{id}/{reasonToDelete}', 'UserControllerAPI@deletePlayer');
 
 Route::middleware('auth:api', 'isAdmin')->get('decks', 'DeckControllerAPI@getDecks');
 

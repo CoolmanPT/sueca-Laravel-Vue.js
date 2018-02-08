@@ -93,7 +93,7 @@ class UserControllerAPI extends Controller
 
 		if ($request->wantsJson() && !$validator->fails()) {
 			$activation = Activation::where('token', $request->token)
-				->first();
+			->first();
 
 			if (empty($activation)) {
 				return response()->json(['msg' => 'Token inválido.'], 400);
@@ -151,8 +151,8 @@ class UserControllerAPI extends Controller
 
 		if ($request->wantsJson() && !$validator->fails()) {
 			$checkEmailExists = User::where('id', '<>', $request->user()->id)
-				->where('email', $request->input('email'))
-				->first();
+			->where('email', $request->input('email'))
+			->first();
 
 			if ($checkEmailExists) {
 				return response()->json(
@@ -280,56 +280,46 @@ class UserControllerAPI extends Controller
 
 	}
 
-	public function deletePlayer(Request $request)
+	public function deletePlayer($id, $reasonToDelete)
 	{
-		$validator = Validator::make($request->all(), [
-			'reason' => 'required|string'
-		]);
-		if ($request->wantsJson() && !$validator->fails()) {
-			try {
-				$user = $request->get('user1');
-				$u = User::findOrFail($user['id']);
-				$msg = 'Account deleted';
-				$reason = nl2br($request->input('reason'));
-				if ($reason != null) {
-					$msg .= 'Reason: ' . $reason;
-				}
-
-
-				$config = DB::table('config')->first();
-				$mailConfigs = json_decode($config->platform_email_properties);
-
-				config([
-					'mail.host' => $mailConfigs->host,
-					'mail.port' => $mailConfigs->port,
-					'mail.encryption' => $mailConfigs->encryption,
-					'mail.username' => $config->platform_email,
-					'mail.password' => $mailConfigs->password
-				]);
-
-				$app = App::getInstance();
-				$app->singleton('swift.transport', function ($app) {
-					return new TransportManager($app);
-				});
-				$mailer = new Swift_Mailer($app['swift.transport']->driver());
-				Mail::setSwiftMailer($mailer);
-
-				Mail::to($u->email)->queue(new ChangeState($msg, $config->platform_email));
-				$u->delete();
-
-				return response()->json(['msg' => 'User deleted']);
-			} catch (\Exception $e) {
-				print_r($e);
-				exit();
-				return response()->json(['msg' => 'Problem sending email.'], 400);
+		//var_dump($request->input('reasonToDelete'));
+		try {
+			$user = User::findOrFail($id);
+			$msg = 'Account deleted';
+			$reason = nl2br($reasonToDelete);
+			if ($reason != null) {
+				$msg .= ' Reason: ' . $reason;
 			}
 
+			// inicio email
+			$config = DB::table('config')->first();
+			$mailConfigs = json_decode($config->platform_email_properties);
 
-		} else {
-			return response()->json(['msg' => 'Invalid Request.'], 400);
+			config([
+				'mail.host' => $mailConfigs->host,
+				'mail.port' => $mailConfigs->port,
+				'mail.encryption' => $mailConfigs->encryption,
+				'mail.username' => $config->platform_email,
+				'mail.password' => $mailConfigs->password
+			]);
+
+			$app = App::getInstance();
+			$app->singleton('swift.transport', function ($app) {
+				return new TransportManager($app);
+			});
+			$mailer = new Swift_Mailer($app['swift.transport']->driver());
+			Mail::setSwiftMailer($mailer);
+
+			Mail::to($user->email)->queue(new ChangeState($msg, $config->platform_email));
+			// fim email
+
+			$user->delete();
+
+			return response()->json(['msg' => 'User deleted']);
+		} catch (\Exception $e) {
+			print_r($e);
+			exit();
+			return response()->json(['msg' => 'Problem sending email.'], 400);
 		}
-
 	}
-
-
 }

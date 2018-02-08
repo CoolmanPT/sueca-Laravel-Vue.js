@@ -13,12 +13,20 @@
                     <button @click="changeStatus(user)" v-if="user.blocked === 1" class="btn btn-success">Unblock
                     </button>
                     <button @click="changeStatus(user)" v-else class="btn btn-danger">Block</button>
-                    <button @click="deletePlayer(user)" class="btn btn-primary">Delete</button>
+                    <button @click="deleteStatus(user)" class="btn btn-primary">Delete</button>
                 </div>
                 <div class="col-lg-7" v-if="showReasonbox === 1">
                     <textarea v-model="reason" placeholder="reason" class=" form-control" rows="5" cols="4"></textarea>
                     <button @click="cancel" class="btn btn-default  mt-1">Cancel</button>
-                    <button @click="sendStatus" class="btn btn-dark float-right mt-1">Save</button>
+                    <button @click="deletePlayer" class="btn btn-dark float-right mt-1">Save</button>
+                    <div class="alert alert-success" role="alert" v-if="success">
+                        <p>{{successMessage}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-7" v-if="showReasonbox === 2">
+                    <textarea v-model="reasonToDelete" placeholder="reason to delete" class=" form-control" rows="5" cols="4"></textarea>
+                    <button @click="cancel" class="btn btn-default  mt-1">Cancel</button>
+                    <button @click="deletePlayer" class="btn btn-dark float-right mt-1">Save</button>
                     <div class="alert alert-success" role="alert" v-if="success">
                         <p>{{successMessage}}</p>
                     </div>
@@ -35,6 +43,7 @@
             return {
                 status: '',
                 reason: '',
+                reasonToDelete: '',
                 showReasonbox: 0,
                 user1: this.user,
                 success: false,
@@ -57,15 +66,20 @@
                 this.showReasonbox = 1;
 
             },
-            deletePlayer(user) {
-                console.log(user.id);
-                axios.delete('api/users/' + user.id + '/' + this.reason)
-                    .then(response => {
-                        this.$parent.$parent.getUsers();
-                        this.success = true;
-                        this.successMessage = "user deleted!";
-                        setTimeout(() => this.success = false, 3000);
-                    });
+            deleteStatus(user) {
+                this.showReasonbox = 2;
+
+            },
+            deletePlayer() {
+                console.log(this.user.id);
+                console.log(this.reasonToDelete);
+                axios.delete('api/admin/user/'+ this.user.id +'/'+ this.reasonToDelete)
+                .then(response => {
+                    this.$parent.$parent.getUsers();
+                    this.success = true;
+                    this.successMessage = "user deleted!";
+                    setTimeout(() => this.success = false, 3000);
+                });
 
             },
             sendStatus() {
@@ -75,13 +89,13 @@
                 };
                 console.log(data);
                 axios.post('api/admin/user/state', data)
-                    .then(response => {
-                        this.$parent.$parent.getUsers();
-                        this.success = true;
-                        this.successMessage = 'User changed';
+                .then(response => {
+                    this.$parent.$parent.getUsers();
+                    this.success = true;
+                    this.successMessage = 'User changed';
 
-                        setTimeout(() => this.success = false, 3000);
-                    });
+                    setTimeout(() => this.success = false, 3000);
+                });
             },
             cancel() {
                 this.showReasonbox = 0;
@@ -94,4 +108,4 @@
 
 
     }
-</script>
+    </script>
