@@ -9,6 +9,8 @@ $fa-font-path: "../../../node_modules/font-awesome/fonts" !default;
 
 @import 'node_modules/font-awesome/scss/font-awesome.scss';
 
+@import "default.css";
+
 
 nav.side-navbar.shrinked ul li a i {
   display: none !important;
