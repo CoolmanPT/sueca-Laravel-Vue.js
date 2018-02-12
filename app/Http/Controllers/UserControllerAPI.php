@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Swift_Mailer;
 use Validator;
+use Input;
 
 class UserControllerAPI extends Controller
 {
@@ -201,10 +202,12 @@ class UserControllerAPI extends Controller
 				return response()->json(['msg' => $validator->errors()]);
 			} else {
 	
-				$imageData = $request->get('image');
-				$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-				Image::make($request->get('image'))->resize(150, 150)->save(public_path('img/avatars/') . $fileName);
-				$request->user()->avatar = 'img/avatars/' . $fileName;
+				$imageData = $request->image;
+				$filename  = 'avatar.png';
+
+				$path = public_path('img/avatars/' . $filename);
+				Image::make($imageData)->resize(100, 100)->save($path);
+				$request->user()->avatar = '/img/avatars/' . $filename;
 				$request->user()->save();
 				return response()->json(['msg' => 'success']);
 			}
