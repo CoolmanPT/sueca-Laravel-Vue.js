@@ -86,7 +86,7 @@ class DeckControllerAPI extends Controller
         }
     }
 
-    private function fillHeart(Object $deck)
+    private function fillHeart(Deck $deck)
     {
         $values = ['Ace', '2', '3', '4', '5', '6', '7', 'Jack', 'Queen', 'King'];
         $imgs = ['c1.png', 'c2.png', 'c3.png', 'c4.png', 'c5.png', 'c6.png', 'c7.png', 'c11.png', 'c12.png', 'c13.png'];
@@ -105,7 +105,7 @@ class DeckControllerAPI extends Controller
 
     }
 
-    private function fillSpade(Object $deck)
+    private function fillSpade(Deck $deck)
     {
         $values = ['Ace', '2', '3', '4', '5', '6', '7', 'Jack', 'Queen', 'King'];
         $imgs = ['e1.png', 'e2.png', 'e3.png', 'e4.png', 'e5.png', 'e6.png', 'e7.png', 'e11.png', 'e12.png', 'e13.png'];
@@ -124,7 +124,7 @@ class DeckControllerAPI extends Controller
 
     }
 
-    private function fillDiamond(Object $deck)
+    private function fillDiamond(Deck $deck)
     {
         $values = ['Ace', '2', '3', '4', '5', '6', '7', 'Jack', 'Queen', 'King'];
         $imgs = ['o1.png', 'o2.png', 'o3.png', 'o4.png', 'o5.png', 'o6.png', 'o7.png', 'o11.png', 'o12.png', 'o13.png'];
@@ -143,7 +143,7 @@ class DeckControllerAPI extends Controller
 
     }
 
-    private function fillClub(Object $deck)
+    private function fillClub(Deck $deck)
     {
         $values = ['Ace', '2', '3', '4', '5', '6', '7', 'Jack', 'Queen', 'King'];
         $imgs = ['p1.png', 'p2.png', 'p3.png', 'p4.png', 'p5.png', 'p6.png', 'p7.png', 'p11.png', 'p12.png', 'p13.png'];
