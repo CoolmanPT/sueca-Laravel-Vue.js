@@ -51,8 +51,10 @@ class DeckControllerAPI extends Controller
         } else {
 
             $fileName = 'semFace.png';
-            File::makeDirectory($path, $mode = 0777, true, true);
+            File::makeDirectory(public_path('img/decks/') . $request->get('name'), $mode = 0777, true, true);
             $path = public_path('img/decks/') . $request->get('name');
+            
+            
             
             Image::make($request->get('image'))->resize(75, 125)->save($path . '/' . $fileName);
             $deck = new Deck;
