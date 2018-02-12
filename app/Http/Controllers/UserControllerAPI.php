@@ -202,14 +202,17 @@ class UserControllerAPI extends Controller
 			} else {
 	
 				$imageData = $request->get('image');
-				$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+				$fileName = 'avatar.png';
 				Image::make($request->get('image'))->resize(150, 150)->save(public_path('img/avatars/') . $fileName);
 				$request->user()->avatar = 'img/avatars/' . $fileName;
 				$request->user()->save();
 				return response()->json(['user' => $request->user, 'error' => false]);
 			}
-		} catch(\Exception $e)
-		print_r($e);
+		} catch(\Exception $e) {
+			print_r($e);
+			exit();
+		}
+		
 	}
 
 	public function changeState(Request $request)
