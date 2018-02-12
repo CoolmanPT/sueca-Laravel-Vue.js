@@ -104,7 +104,6 @@ module.exports = {
       axios
         .put("/api/editdeckimg/" + this.deck.id, data)
         .then(response => {
-          this.$router.go(this.$router.currentRoute);
         })
         .catch(error => {
           this.serverErrorCode = error.response.data;
