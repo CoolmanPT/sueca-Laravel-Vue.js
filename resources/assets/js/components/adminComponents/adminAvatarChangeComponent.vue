@@ -12,7 +12,7 @@
                     <div class="col-6 mt-auto mb-auto">
                         <div class="form-group">
 
-                            <input type="file" v-on:change="onFileChange" class="form-control ">
+                            <input type="file" v-on:change="onFileChange" class="form-control-file ">
 
                         </div>
                         <button class="btn btn-dark" @click.prevent="upload">Upload</button>

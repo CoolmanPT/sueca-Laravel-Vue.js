@@ -48,6 +48,10 @@ Route::middleware('auth:api', 'isAdmin')->get('decks', 'DeckControllerAPI@getDec
 Route::middleware('auth:api', 'isAdmin')->post('newDeck', 'DeckControllerAPI@newDeck');
 Route::middleware('auth:api', 'isAdmin')->post('addallcards', 'DeckControllerAPI@addAllCards');
 Route::middleware('auth:api', 'isAdmin')->delete('deletedeck/{id}', 'DeckControllerAPI@deleteDeck');
+Route::middleware('auth:api', 'isAdmin')->get('getcurrentdeck/{id}', 'DeckControllerAPI@getCurrentDeck');
+Route::middleware('auth:api', 'isAdmin')->put('editcard/{id}', 'DeckControllerAPI@editCardImage');
+Route::middleware('auth:api', 'isAdmin')->put('editdeckimg/{id}', 'DeckControllerAPI@editDeckImg');
+
 
 
 

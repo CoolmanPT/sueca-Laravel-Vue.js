@@ -159,4 +159,44 @@ class DeckControllerAPI extends Controller
         }
 
     }
+
+    public function getCurrentDeck(Request $request) {
+        $deck = Deck::with('cards')->findOrFail($request->id);
+        return $deck;
+    }
+
+    public function editCardImage (int $id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image64:jpeg,jpg,png',
+		]);
+		if ($validator->fails()) {
+			return response()->json(['msg' => $validator->errors()]);
+		} else {
+            $card = Card::findOrFail($id);
+            $deck = Deck::with('cards')->findOrFail($card->deck_id);
+            $imageData = $request->get('image');
+            Image::make($imageData)->resize(75, 125)->save(public_path('img/decks/') . $deck->name . '/' . $card->value . $card->suite . '.png');
+            $card->path = 'img/decks/' . $deck->name . '/' . $card->value . $card->suite . '.png';
+            $card->save();
+            $deck->save();
+			return response()->json(['deck' => $deck, 'card' => $card], 200);
+		}
+    }
+
+    public function editDeckImg (int $id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image64:jpeg,jpg,png',
+		]);
+		if ($validator->fails()) {
+			return response()->json(['msg' => $validator->errors()]);
+		} else {
+            
+            $deck = Deck::with('cards')->findOrFail($id);
+            $imageData = $request->get('image');
+            Image::make($imageData)->resize(75, 125)->save(public_path('img/decks/') . $deck->name . '/' . 'semFace.png');
+            $deck->hidden_face_image_path = 'img/decks/' . $deck->name . '/' . 'semFace.png';;
+            $deck->save();
+			return response()->json(['deck' => $deck], 200);
+		}
+    }
 }
