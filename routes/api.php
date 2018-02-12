@@ -29,10 +29,12 @@ Route::get('statistics', 'StatisticsControllerAPI@statistics');
 //USER CRUD
 Route::post('register', 'UserControllerAPI@store');
 Route::post('activate', 'UserControllerAPI@activate');
-
 Route::middleware('auth:api')->get('users', 'UserControllerAPI@getUsers');
 Route::middleware('auth:api','isAdmin')->get('blockedusers', 'UserControllerAPI@getBlockedUsers');
 Route::middleware('auth:api', 'isAdmin')->get('newusers', 'UserControllerAPI@getNewUsers');
+
+
+//SETTINGS
 Route::middleware('auth:api', 'isAdmin')->get('settings', 'ConfigControllerAPI@getPlatformData');
 Route::middleware('auth:api', 'isAdmin')->post('settings/update', 'ConfigControllerAPI@update');
 Route::middleware('auth:api', 'isAdmin')->post('admin/email/update', 'UserControllerAPI@updateEmail');
@@ -43,7 +45,16 @@ Route::middleware('auth:api', 'isAdmin')->delete('/admin/user/{id}/{reasonToDele
 Route::middleware('auth:api', 'isAdmin')->get('/statistics/users', 'StatisticsControllerAPI@getUsersStatistics');
 Route::middleware('auth:api', 'isAdmin')->post('/statistics/date', 'StatisticsControllerAPI@getGamesPerDate'); 
 
+//DECKS AND CARDS
 Route::middleware('auth:api', 'isAdmin')->get('decks', 'DeckControllerAPI@getDecks');
+Route::middleware('auth:api', 'isAdmin')->post('newDeck', 'DeckControllerAPI@newDeck');
+Route::middleware('auth:api', 'isAdmin')->post('addallcards', 'DeckControllerAPI@addAllCards');
+Route::middleware('auth:api', 'isAdmin')->delete('deletedeck/{id}', 'DeckControllerAPI@deleteDeck');
+Route::middleware('auth:api', 'isAdmin')->get('getcurrentdeck/{id}', 'DeckControllerAPI@getCurrentDeck');
+Route::middleware('auth:api', 'isAdmin')->put('editcard/{id}', 'DeckControllerAPI@editCardImage');
+Route::middleware('auth:api', 'isAdmin')->put('editdeckimg/{id}', 'DeckControllerAPI@editDeckImg');
+
+
 
 
 

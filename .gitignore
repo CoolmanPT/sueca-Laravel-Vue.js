@@ -12,3 +12,6 @@ yarn-error.log
 /public/js/*
 /public/css/*
 /public/fonts/*
+/public/img/decks/*
+/.vs
+/.vscode

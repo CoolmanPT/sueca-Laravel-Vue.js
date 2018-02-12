@@ -18,7 +18,7 @@
                 <div class="col-lg-7" v-if="showReasonbox === 1">
                     <textarea v-model="reason" placeholder="reason" class=" form-control" rows="5" cols="4"></textarea>
                     <button @click="cancel" class="btn btn-default  mt-1">Cancel</button>
-                    <button @click="deletePlayer" class="btn btn-dark float-right mt-1">Save</button>
+                    <button @click="sendStatus" class="btn btn-dark float-right mt-1">Save</button>
                     <div class="alert alert-success" role="alert" v-if="success">
                         <p>{{successMessage}}</p>
                     </div>

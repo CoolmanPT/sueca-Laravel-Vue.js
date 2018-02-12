@@ -8,7 +8,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Registred Users</th>
+							<th>Registred Players</th>
 							<th>Active Games</th>
 							<th>Total Games</th>
 						</tr>
@@ -35,8 +35,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for></tr>
-							<tr v-for="user in stats.top5MostGames">
+							<tr v-for="user in stats.top5MostGames" v-bind:key="user.id">
 								<td>{{user.nickname}}</td>
 								<td class="text-right">{{user.total_games_played}}</td>
 							</tr>
@@ -54,7 +53,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="user in stats.top5MostPoints">
+							<tr v-for="user in stats.top5MostPoints" v-bind:key="user.id">
 								<td>{{user.nickname}}</td>
 								<td class="text-right">{{user.total_points}}</td>
 							</tr>
@@ -72,7 +71,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="user in stats.top5BestAvg">
+							<tr v-for="user in stats.top5BestAvg" v-bind:key="user.id">
 								<td>{{user.nickname}}</td>
 								<td class="text-right">{{(user.total_points/(user.total_games_played)==0 ? 1 : user.total_games_played)}}</td>
 							</tr>

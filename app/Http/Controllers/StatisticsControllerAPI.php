@@ -29,7 +29,7 @@ class StatisticsControllerAPI extends Controller
     }
 
     public function registedUsers() {
-    	return User::count();
+    	return User::where('admin',0)->count();
     }
 
     public function activeGames() {
@@ -41,22 +41,22 @@ class StatisticsControllerAPI extends Controller
     }
 
     public function top5MostGames() {
-    	$users = User::orderBy('total_games_played', 'desc')->take(5)->get();
+    	$users = User::where('admin',0)->orderBy('total_games_played', 'desc')->take(5)->get();
 
     	return UserStatsResource::collection($users);
     }
 
     public function top5MostPoints() {
-    	$users = User::orderBy('total_points', 'desc')->take(5)->get();
+    	$users = User::where('admin',0)->orderBy('total_points', 'desc')->take(5)->get();
 
     	return UserStatsResource::collection($users);
     }
 
     public function top5BestAvg() {
-    	$users = DB::table('users')
-        ->orderByRaw('(total_points / total_games_played) DESC')
-        ->take(5)
-        ->get();
+    	$users = DB::table('users')->where('admin',0)
+                ->orderByRaw('(total_points / total_games_played) DESC')
+                ->take(5)
+                ->get();
 
         return UserStatsResource::collection($users);
     }

@@ -34,7 +34,7 @@ const settings = Vue.component('settings-component', require('./components/admin
 const users = Vue.component('users-component', require('./components/adminComponents/usersComponent.vue'));
 const decks = Vue.component('decks-component', require('./components/adminComponents/decksComponent.vue'));
 const newDeck = Vue.component('new-deck-component', require('./components/adminComponents/newDeckComponent.vue'));
-const addCard = Vue.component('add-card-component', require('./components/adminComponents/addCardComponent.vue'));
+const cards = Vue.component('card-component', require('./components/adminComponents/cardsComponent.vue'));
 const adminProfile = Vue.component('admin-profile-component', require('./components/adminComponents/adminProfile.vue'));
 const usersStats = Vue.component('statistics-component', require('./components/adminComponents/statisticsComponent.vue'));
 Vue.component('platform-email-settings-component', require('./components/adminComponents/platform-email_settingsComponent.vue'));
@@ -60,8 +60,8 @@ const routes = [
     { path: '/users', component: users },
     { path: '/decks', component: decks },
     { path: '/newDeck', component: newDeck},
-    { path: '/addCard:deck', component: addCard},
-    { path: '/statistics', component: usersStats}
+    { path: '/statistics', component: usersStats},
+    { path: '/cards/:deckid', component: cards},
 ];
 
 const router = new VueRouter({

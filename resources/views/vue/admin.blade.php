@@ -6,4 +6,4 @@
         @section('vueScripts')
     <script src="{{ asset("js/adminVue.js") }}"></script>
 @stop
-@include('template/footer');
+@include('template/footer')

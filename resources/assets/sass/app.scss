@@ -11,7 +11,9 @@ $fa-font-path: "../../../node_modules/font-awesome/fonts" !default;
 
 @import "default.css";
 
-
+body {
+  background: #EEF5F9;
+}
 nav.side-navbar.shrinked ul li a i {
   display: none !important;
 }
@@ -21,17 +23,15 @@ nav.side-navbar.shrinked ul li a i {
 }
 
 .side-navbar {
-  height: 100vh;
-}
-
-.admin-footer {
-  width: 100%;
-  background: #2f333e;
-  color: #fff;
-  padding: 20px 10px;
+  height: auto;
 }
 
 .collapse-row.collapsed + tr {
   display: none;
 }
 
+li > a.router-link-active {
+  background-color: #796AEE;
+  color: #EEF5F9;
+  border-left: 4px solid #3b25e6 !important;
+}

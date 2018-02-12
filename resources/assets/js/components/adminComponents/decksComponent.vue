@@ -28,16 +28,14 @@
                 </section>
 
                 <!-- Page Footer-->
-                <footer class="admin-footer footer--fixed fixed-bottom">
+                <footer class="main-footer">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-6">
-                                <p>Recurso DAD - Sueca</p>
+                                <p>Recurso Sueca | DAD</p>
                             </div>
                             <div class="col-sm-6 text-right">
-                                <p>Bruno Pereira - 2151219 ||
-                                </p>
-                                <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+                                <p>Alberto Lalanda | Bruno Pereira | Fábio Lage</p>
                             </div>
                         </div>
                     </div>
