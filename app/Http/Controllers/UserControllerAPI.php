@@ -18,6 +18,7 @@ use Intervention\Image\Facades\Image;
 use Swift_Mailer;
 use Validator;
 use Input;
+use Storage;
 
 class UserControllerAPI extends Controller
 {
@@ -204,7 +205,6 @@ class UserControllerAPI extends Controller
 	
 				$imageData = $request->image;
 				$filename  = 'avatar.png';
-
 				$path = public_path('img/avatars/' . $filename);
 				Image::make($imageData)->resize(100, 100)->save($path);
 				$request->user()->avatar = '/img/avatars/' . $filename;
