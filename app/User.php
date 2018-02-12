@@ -32,4 +32,9 @@ class User extends Authenticatable
         return $this->orWhere('email', $identifier)->orWhere('nickname', $identifier)->first();
 
     }
+
+    public function games()
+    {
+        return $this->belongsToMany('App\Game', 'game_user', 'user_id', 'game_id')->withPivot('team_number');
+    }
 }

@@ -40,6 +40,8 @@ Route::middleware('auth:api', 'isAdmin')->post('admin/password/update', 'UserCon
 Route::middleware('auth:api', 'isAdmin')->post('/admin/upload/avatar', 'UserControllerAPI@updateAvatar');
 Route::middleware('auth:api', 'isAdmin')->post('/admin/user/state', 'UserControllerAPI@changeState');
 Route::middleware('auth:api', 'isAdmin')->delete('/admin/user/{id}/{reasonToDelete}', 'UserControllerAPI@deletePlayer');
+Route::middleware('auth:api', 'isAdmin')->get('/statistics/users', 'StatisticsControllerAPI@getUsersStatistics');
+Route::middleware('auth:api', 'isAdmin')->post('/statistics/date', 'StatisticsControllerAPI@getGamesPerDate'); 
 
 Route::middleware('auth:api', 'isAdmin')->get('decks', 'DeckControllerAPI@getDecks');
 
