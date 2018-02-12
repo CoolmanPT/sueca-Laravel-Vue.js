@@ -206,7 +206,7 @@ class UserControllerAPI extends Controller
 				Image::make($request->get('image'))->resize(150, 150)->save(public_path('img/avatars/') . $fileName);
 				$request->user()->avatar = 'img/avatars/' . $fileName;
 				$request->user()->save();
-				return response()->json(['user' => $request->user, 'error' => false]);
+				return response()->json(['error' => false]);
 			}
 		} catch(\Exception $e) {
 			print_r($e);

@@ -61,7 +61,7 @@
                 }
                 axios.post('/api/admin/upload/avatar',data).then(response => {
                    this.$parent.getUser();
-                    this.serverErrorCode = response.data.user;
+                    this.serverErrorCode = response.data.error;
                     console.log(this.serverErrorCode);
                 })
                     .catch((error) => {
