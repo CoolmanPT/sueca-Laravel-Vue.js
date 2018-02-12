@@ -175,8 +175,41 @@ class DeckControllerAPI extends Controller
             $card = Card::findOrFail($id);
             $deck = Deck::with('cards')->findOrFail($card->deck_id);
             $imageData = $request->get('image');
-            Image::make($imageData)->resize(75, 125)->save(public_path('img/decks/') . $deck->name . '/' . $card->value . $card->suite . '.png');
-            $card->path = 'img/decks/' . $deck->name . '/' . $card->value . $card->suite . '.png';
+            $suite = '';
+            $value = '';
+            switch (strtolower($card->suite[0])) {
+                case 'h':
+                    $suite = 'c';
+                    break;
+                case 's':
+                    $suite = 'e';
+                    break;
+                case 'c':
+                    $suite = 'p';
+                    break;
+                case 'd':
+                    $suite = 'o';
+                    break;
+            }
+
+            switch ($card->value) {
+                case 'Ace':
+                    $value = 1;
+                    break;
+                case 'Jack':
+                    $suite = 11;
+                    break;
+                case 'Queen':
+                    $suite = 12;
+                    break;
+                case 'King':
+                    $suite = 13;
+                    break;
+            }
+
+
+            Image::make($imageData)->resize(75, 125)->save(public_path('img/decks/') . $deck->name . '/'  . $suite . $value .  '.png');
+            $card->path = 'img/decks/' . $deck->name . '/' . $suite . $value . '.png';
             $card->save();
             $deck->save();
 			return response()->json(['deck' => $deck, 'card' => $card], 200);

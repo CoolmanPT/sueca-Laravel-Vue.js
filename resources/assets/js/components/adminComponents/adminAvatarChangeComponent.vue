@@ -13,10 +13,9 @@
                         <div class="form-group">
 
                             <input type="file" v-on:change="onFileChange" class="form-control-file ">
-
                         </div>
                         <button class="btn btn-dark" @click.prevent="upload">Upload</button>
-                        <p class="help is-danger" v-show="serverErrorCode" v-text="serverErrorCode"></p>
+                        <p class="help is-danger" v-if="serverErrorCode" >{{serverErrorCode }}</p>
 
                     </div>
                 </div>
@@ -58,15 +57,15 @@
                 const data = {
                     image: this.image,
                     user: this.user,
+                    
                 }
+                console.log(data)
                 axios.post('/api/admin/upload/avatar',data).then(response => {
                    this.$parent.getUser();
-                    this.serverErrorCode = response.data.error;
-                    console.log(this.serverErrorCode);
+                    this.serverErrorCode = response.data.msg;
                 })
                     .catch((error) => {
                         this.serverErrorCode = error.response.data.msg;
-                        console.log(this.serverErrorCode);
                     });
             }
         }
