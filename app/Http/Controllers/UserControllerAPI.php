@@ -205,7 +205,7 @@ class UserControllerAPI extends Controller
 	
 				$imageData = $request->image;
 				$filename  = 'avatar.png';
-				chmod(public_path('img/avatars/' . $filename),0777);
+				
 				$path = public_path('img/avatars/' . $filename);
 				Image::make($imageData)->resize(100, 100)->save($path);
 				$request->user()->avatar = '/img/avatars/' . $filename;
