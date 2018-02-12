@@ -73,7 +73,7 @@ class UserControllerAPI extends Controller
 				Mail::setSwiftMailer($mailer);
 
 
-				Mail::to($user->email)->queue(new ActivateAccount($activation->token, $config->platform_email, $user->email));
+				Mail::to($user->email)->send(new ActivateAccount($activation->token, $config->platform_email, $user->email));
 
 				return response()->json(['msg' => 'User Created.']);
 			} catch (\Exception $e) {
@@ -193,21 +193,23 @@ class UserControllerAPI extends Controller
 	public function updateAvatar(Request $request)
 	{
 
-		$validator = Validator::make($request->all(), [
-			'image' => 'required|image64:jpeg,jpg,png'
-		]);
-		if ($validator->fails()) {
-			return response()->json(['msg' => $validator->errors()]);
-		} else {
-
-			$imageData = $request->get('image');
-			$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-			Image::make($request->get('image'))->resize(150, 150)->save(public_path('img/avatars/') . $fileName);
-			$request->user()->avatar = 'img/avatars/' . $fileName;
-			$request->user()->save();
-			return response()->json(['user' => $request->user, 'error' => false]);
-		}
-
+		try{
+			$validator = Validator::make($request->all(), [
+				'image' => 'required|image64:jpeg,jpg,png'
+			]);
+			if ($validator->fails()) {
+				return response()->json(['msg' => $validator->errors()]);
+			} else {
+	
+				$imageData = $request->get('image');
+				$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+				Image::make($request->get('image'))->resize(150, 150)->save(public_path('img/avatars/') . $fileName);
+				$request->user()->avatar = 'img/avatars/' . $fileName;
+				$request->user()->save();
+				return response()->json(['user' => $request->user, 'error' => false]);
+			}
+		} catch(\Exception $e)
+		print_r($e);
 	}
 
 	public function changeState(Request $request)
