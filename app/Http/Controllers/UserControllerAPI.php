@@ -209,7 +209,7 @@ class UserControllerAPI extends Controller
 				return response()->json(['error' => false]);
 			}
 		} catch(\Exception $e) {
-			print_r($e);
+			
 			exit();
 		}
 		
