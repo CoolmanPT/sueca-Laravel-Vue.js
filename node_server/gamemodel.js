@@ -20,7 +20,8 @@ class GameSueca {
         this.cardsOnTable = undefined;
         this.rounds = 0;
         this.cardToAssist = undefined;
-        
+        this.createdAt = null;
+
         this.deckId = 1;
         this.creatorId = player_id;
 
@@ -41,11 +42,15 @@ class GameSueca {
         this.cardsOnTable = 0;
     }
 
-    //METHODS
-
     join(player_id, playerName, socket_id) {
 
         if (this.playerCount < 4) {
+            for (let index = 0; index < this.players.length; index++) {
+                if(this.players[index].player_id === player_id){
+                    console.log("passei por aqui");
+                    return false;
+                }
+            }
             let teamNumber = undefined;
             if (this.playerCount < 2) {
                 teamNumber = 1;
@@ -122,15 +127,15 @@ class GameSueca {
 }
 
 drawCards(drawCardsTo, deck) {   
-        //console.log(drawCardsTo);         
-        for (let i = 0; i < 10; i++) {
-            this.players[drawCardsTo].hand.push(deck[i]);                
-        }
-        deck.splice(0, 10);
-
-        //console.log("Deck: " + JSON.stringify(deck));
-
+    //console.log(drawCardsTo);         
+    for (let i = 0; i < 10; i++) {
+        this.players[drawCardsTo].hand.push(deck[i]);                
     }
+    deck.splice(0, 10);
+
+    //console.log("Deck: " + JSON.stringify(deck));
+
+}
 
     play(player_id, cardIndex) {
         /*  console.log("PlayerID " + player_id);
@@ -151,6 +156,7 @@ drawCards(drawCardsTo, deck) {
            this.nextPlayer(playerIndex);
            this.cardsOnTable++;
 
+           console.log(this.gameEnded);
             // console.log("Player " + playerIndex+1 + " renuncia: " + this.players[playerIndex].renuncia);
             return true;
         } else {
@@ -186,7 +192,7 @@ drawCards(drawCardsTo, deck) {
         }
 
         this.rounds++;
-        if(this.rounds>=10){
+        if(this.rounds>10){
             this.finishGame();
         }
 
@@ -248,21 +254,31 @@ drawCards(drawCardsTo, deck) {
                         conn.setLost(this.gameID, this.players[3], -4);
                         conn.gameTerminate(this.gameID);*/
                         console.log("TEAM 1 GANHA RENUNCIA CONFIRMADA");
+                        this.gameEnded=true;
+                        this.winnerTeam=1;
                     }else{
                          //equi+a 1 perde renuncia não confirmada
                          console.log("TEAM 1 PERDE RENUNCIA NÃO CONFIRMADA");
+                         this.gameEnded=true;
+                         this.winnerTeam=2;
                      }
                  }else{
                     if(this.players[0].renuncia === true || this.players[1].renuncia === true){
                         //equi+a 2 ganha renuncia confirmada
                         console.log("TEAM 2 GANHA RENUNCIA CONFIRMADA");
+                        this.gameEnded=true;
+                        this.winnerTeam=2;
                     }else{
                          //equi+a 2 perde renuncia não confirmada
                          console.log("TEAM 2 PERDE RENUNCIA NÃO CONFIRMADA");
+                         this.gameEnded=true;
+                         this.winnerTeam=1;
                      }
                  }
              }
          }
+         console.log("DESCONFIAR " + this.gameEnded);
+         this.gameEnded=true;
      }
 
      nextPlayer(actualPlayerIndex) {
@@ -310,6 +326,8 @@ drawCards(drawCardsTo, deck) {
                 conn.setTie(this.gameID, this.players[1], 0);
                 conn.setTie(this.gameID, this.players[2], 0);
                 conn.setTie(this.gameID, this.players[3], 0);*/
+                this.teamsTied = true;
+                this.gameEnded=true;
                 break;
             }else{
                 if (this.team1Points > this.team2Points){
@@ -318,6 +336,8 @@ drawCards(drawCardsTo, deck) {
                         conn.setLost(this.gameID, this.players[1], 0);
                         conn.setWin(this.gameID, this.players[2], 1);
                         conn.setLost(this.gameID, this.players[3], 0);*/
+                        this.gameEnded=true;
+                        this.winnerTeam=1;
                         break;
                     }
                     if (this.team1Points >= 91 && this.team1Points <= 119) {
@@ -325,6 +345,8 @@ drawCards(drawCardsTo, deck) {
                         conn.setLost(this.gameID, this.players[1], 0);
                         conn.setWin(this.gameID, this.players[2], 2);
                         conn.setLost(this.gameID, this.players[3], 0);*/
+                        this.gameEnded=true;
+                        this.winnerTeam=1;
                         break;
                     }
                     if (this.team1Points ===120) {
@@ -332,6 +354,8 @@ drawCards(drawCardsTo, deck) {
                         conn.setLost(this.gameID, this.players[1], 0);
                         conn.setWin(this.gameID, this.players[2], 4);
                         conn.setLost(this.gameID, this.players[3], 0);*/
+                        this.gameEnded=true;
+                        this.winnerTeam=1;
                         break;
                     }
                 }else{
@@ -341,6 +365,8 @@ drawCards(drawCardsTo, deck) {
                             conn.setWin(this.gameID, this.players[1], 1);
                             conn.setLost(this.gameID, this.players[2], 0);
                             conn.setWin(this.gameID, this.players[3],1 );*/
+                            this.gameEnded=true;
+                            this.winnerTeam=2;
                             break;
                         }
                         if (this.team2Points >= 91 && this.team2Points <= 119) {
@@ -348,6 +374,8 @@ drawCards(drawCardsTo, deck) {
                             conn.setWin(this.gameID, this.players[1], 2);
                             conn.setLost(this.gameID, this.players[2], 0);
                             conn.setWin(this.gameID, this.players[3], 2);*/
+                            this.gameEnded=true;
+                            this.winnerTeam=2;
                             break;
                         }
                         if (this.team2Points ===120) {
@@ -355,6 +383,8 @@ drawCards(drawCardsTo, deck) {
                             conn.setWin(this.gameID, this.players[1], 4);
                             conn.setLost(this.gameID, this.players[2], 0);
                             conn.setWin(this.gameID, this.players[3], 4);*/
+                            this.gameEnded=true;
+                            this.winnerTeam=2;
                             break;
                         }
                     }
@@ -418,6 +448,8 @@ drawCards(drawCardsTo, deck) {
             ]
             return deck;
         }
-    }
 
+
+
+    }
     module.exports = GameSueca;

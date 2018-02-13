@@ -3,13 +3,13 @@
 
 
         <player1-board :game="game" v-if="game.gameStarted && game.players[0] && game.players[0].playerID == user.id"
-            @play="play"></player1-board>
+            @play="play" @desconfiar="desconfiar"></player1-board>
         <player2-board :game="game" v-if="game.gameStarted && game.players[1] && game.players[1].playerID == user.id"
-            @play="play"></player2-board>
+            @play="play" @desconfiar="desconfiar"></player2-board>
         <player3-board :game="game" v-if="game.gameStarted && game.players[2] && game.players[2].playerID == user.id"
-            @play="play"></player3-board>
+            @play="play" @desconfiar="desconfiar"></player3-board>
         <player4-board :game="game" v-if="game.gameStarted && game.players[3] && game.players[3].playerID == user.id"
-            @play="play"></player4-board>
+            @play="play" @desconfiar="desconfiar"></player4-board>
 
     </div>
 </template>
@@ -67,6 +67,16 @@
                     this.$emit('play', {
                         gameID: this.game.gameID,
                         index: card_index,
+                    });
+                }
+            },
+
+            desconfiar() {
+                console.log(this.game.gameID + " " + this.user.id);
+                if (this.game.playerTurn == this.user.id) {
+                    this.$emit('desconfiar', {
+                        gameID: this.game.gameID,
+                        playerID: this.user.id,
                     });
                 }
             },

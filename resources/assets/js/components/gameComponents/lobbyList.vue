@@ -8,13 +8,14 @@
 					<th>Player 2</th>
 					<th>Player 3</th>
 					<th>Player 4</th>
+					<th>Created At</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="game in games"  :key="game.gameID">
 					<td>{{ game.gameID }}</td>
-					<td> {{game.players[0].name}}</td>
+					<td>{{game.players[0].name}}</td>
 
 					<td v-if="game.players[1]"> {{game.players[1].name}}</td>
 					<td v-if="!game.players[1]"> Waiting for player 2</td>
@@ -24,6 +25,8 @@
 
 					<td v-if="game.players[3]"> {{game.players[3].name}}</td>
 					<td v-if="!game.players[3]"> Waiting for player 4</td>
+
+					<td>{{game.createdAt}}</td>
 
 					<td>
 						<a class="btn btn-xs btn-primary" v-on:click.prevent="join(game)" v-if="game.players[0].playerID != user.id">Join</a>

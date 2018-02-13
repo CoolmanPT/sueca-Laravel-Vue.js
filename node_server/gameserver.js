@@ -1,7 +1,5 @@
 var app = require('http').createServer();
 
-
-
 var io = require('socket.io')(app);
 
 var SuecaGame = require('./gamemodel.js');
@@ -75,9 +73,9 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on('desconfiar', function (data) {
-		console.log("Desconfiar player " + data.player);
+		console.log("O " + data.playerID + "deconfia.");
 		let game = games.gameByID(data.gameID);				
-		game.desconfiar(data.player);
+		game.desconfiar(data.playerID);
 	});
 
 	socket.on('get_game', function (data) {
