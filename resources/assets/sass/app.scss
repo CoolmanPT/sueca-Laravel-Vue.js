@@ -50,10 +50,12 @@ li > a.router-link-active {
 }
 .myHand:hover{
   //max-width: 80px;
-  transform: scale(2);
+  //transform: scale(2);
+  opacity: 0.7; 
+  max-width: 40px;
   margin: 2px;
   padding: 0px;
-  position: absolute;
+  //position: absolute;
 }
 .oponentsHand{
   max-width: 40px;
@@ -65,4 +67,8 @@ li > a.router-link-active {
   max-width: 40px;
   margin: 4px;
   padding: 0px;
+}
+
+.center-zone{
+  height: 200pt;
 }

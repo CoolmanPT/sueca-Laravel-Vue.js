@@ -69,4 +69,21 @@ class GameControllerAPI extends Controller
             return response()->json(['msg' => 'Game Started'], 200);
         }
     }
+
+    public function finish(Request $request) {
+    	$validator = Validator::make($request->all(),[
+            'game_id' => 'required'
+    	]);
+
+    	if ($validator->fails()) {
+            return response()->json(['msg' => $validator->errors()]);
+        } else {
+
+            $game = Game::findOrFail($request->get('game_id'));
+			$game->status = 'terminated';
+			$game->save();
+
+            return response()->json(['msg' => 'Game Finished'], 200);
+        }
+    }
 }

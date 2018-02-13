@@ -74,6 +74,12 @@ io.on('connection', function (socket) {
 		}
 	});
 
+	socket.on('desconfiar', function (data) {
+		console.log("Desconfiar player " + data.player);
+		let game = games.gameByID(data.gameID);				
+		game.desconfiar(data.player);
+	});
+
 	socket.on('get_game', function (data) {
 		let game = games.gameByID(data.gameID);
 		socket.emit('game_changed', game);

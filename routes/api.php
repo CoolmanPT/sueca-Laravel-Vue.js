@@ -57,5 +57,6 @@ Route::middleware('auth:api', 'isAdmin')->put('editdeckimg/{id}', 'DeckControlle
 Route::post('/game/create', 'GameControllerAPI@create');
 Route::post('/game/join', 'GameControllerAPI@join');
 Route::put('/game/start', 'GameControllerAPI@start');
+Route::put('/game/finish', 'GameControllerAPI@finish');
 
 

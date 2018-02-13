@@ -52,6 +52,8 @@ class GameList {
 
     startGame(gameID){
       let game = this.gameByID(gameID);
+      
+
       game.startGame();
 
       return game;

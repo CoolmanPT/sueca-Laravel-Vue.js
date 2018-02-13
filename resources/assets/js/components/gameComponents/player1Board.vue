@@ -1,9 +1,25 @@
 <template>
     <div>
+        <div class="alert" :class="alertType">
+            <span v-cloak><strong>{{ message }}</strong> &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
         <div>
             <h2 class="text-center bg-primary text-white">Game {{ game.gameID }}</h2>
-            <br>
+
+            
+
+            <div v-if="game.players[0].playerID != game.playerTurn" v-for="(player, index) in game.players">
+                <h3 v-if="player.playerID === game.playerTurn" class="text-center bg-info text-white">{{player.name}} Turn</h3>
+            </div>
+            <div v-if="game.players[0].playerID == game.playerTurn">
+                <h3 class="text-center bg-success text-white font-weight-bold">Your Turn</h3>
+            </div>
+            <h3 class="text-center bg-danger text-white font-weight-bold">PONTOS DA TUA EQUIPA - {{ game.team1Points }} / PONTOS DA EQUIPA ADVERSARIA - {{ game.team2Points }}</h3>
+                
+            
+
         </div>
+        <br>
         <div class="board container-fluid">
             <!-- TEAMMATE HAND -->
             <div class="row">
@@ -43,30 +59,30 @@
                     </div>
                 </div>
                 <!-- CENTER ZONE -->
-                <div class="col-md-4">
+                <div class="col-md-4 center-zone">
                     <!-- TEAMMATE CARD -->
                     <div class="row">
                         <div class="col-md-12" style="text-align:center">
-                            <img v-if="!game.players[1].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">
+                            <!--<img v-if="!game.players[1].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">-->
                             <img v-if="game.players[1].cardTable" v-bind:src="cardImageURL(game.players[1].cardTable.image)" class="playedCard">
                         </div>
                     </div>
                     <div class="row">
                         <!-- LEFT PLAYER CARD -->
                         <div class="col-md-6" style="text-align:center">
-                            <img v-if="!game.players[2].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">
+                            <!--<img v-if="!game.players[2].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">-->
                             <img v-if="game.players[2].cardTable" v-bind:src="cardImageURL(game.players[2].cardTable.image)" class="playedCard">
                         </div>
                         <!-- RIGHT PLAYER CARD -->
                         <div class="col-md-6" style="text-align:center">
-                            <img v-if="!game.players[3].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">
+                            <!--<img v-if="!game.players[3].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">-->
                             <img v-if="game.players[3].cardTable" v-bind:src="cardImageURL(game.players[3].cardTable.image)" class="playedCard">
                         </div>
                     </div>
                     <!-- MY CARD -->
                     <div class="row">
                         <div class="col-md-12" style="text-align:center">
-                            <img v-if="!game.players[0].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">
+                            <!--<img v-if="!game.players[0].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">-->
                             <img v-if="game.players[0].cardTable" v-bind:src="cardImageURL(game.players[0].cardTable.image)" class="playedCard">
                         </div>
                     </div>
@@ -106,6 +122,11 @@
                     <!-- <img :src="avatarURL(game.players[0].avatar)" class="img-circle avatarGame"> -->
                 </div>
             </div>
+            <div class="row">
+                <div class="alert-info" v-show="game.gameStarted && !game.gameEnded">
+                    <button type="button" :class="{'disabled': isActive}" class="btn btn-primary" v-on:click="desconfiar">Desconfiar</button>
+                </div>
+            </div>
         </div>
         <hr>
     </div>
@@ -120,10 +141,38 @@
                 messages: []
             }
         },
-
+        computed: {
+            isActive: function(){
+                return this.game.playerTurn == this.game.players[0].playerID;
+            },
+            message: function () {
+                if(!this.game.gameStarted){
+                    return "Game not started yet. Waiting for players... ";
+                }else if(this.game.gameEnded){
+                    if(this.game.winnerTeam === 1){
+                        this.alertType='alert-success';
+                        return "Your TEAM win!!";
+                    }else{
+                        if(this.game.winnerTeam === 2){
+                            this.alertType='alert-success';
+                            return "You TEAM LOST!!";
+                        }else{
+                            if(this.game.teamsTied){
+                                this.alertType='alert-danger';
+                                return "You TIED!!";
+                            }
+                        }
+                    }
+                }
+                return "";
+            },
+        },
         methods: {
             play(index) {
                 this.$emit('play', index);
+            },
+            desconfiar() {
+                this.$emit('desconfiar', 0);
             },
             cardImageURL(cardNumber) {
                 var imgSrc = String(cardNumber);
