@@ -1,5 +1,6 @@
 {
     "/js/adminVue.js": "/js/adminVue.js",
     "/js/loginVue.js": "/js/loginVue.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/gameVue.js": "/js/gameVue.js"
 }

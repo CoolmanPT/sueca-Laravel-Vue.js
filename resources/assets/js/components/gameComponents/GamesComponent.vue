@@ -1,36 +1,36 @@
 <template>
     <div class="page">
-        <navbar-component></navbar-component>
+        <navbar-component-game></navbar-component-game>
 
         <div class="page-content d-flex align-items-stretch">
-            <sidebar-component :user="user"></sidebar-component>
+            <sidebar-component-game  :user="user"></sidebar-component-game>
 
 
             <div class="content-inner">
                 <!-- Page Header-->
                 <header class="page-header">
                     <div class="container-fluid">
-                        <h2 class="no-margin-bottom">Statistics</h2>
+                        <h2 class="no-margin-bottom">Dashboard</h2>
                     </div>
                 </header>
-                <!-- Platform Email Section-->
+                <!-- Dashboard Counts Section-->
                 <section class="tables">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card">
-                                    <statistics-games-day-component ></statistics-games-day-component>
+                                    <game-lobby :user="user"></game-lobby>
                                     
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <statistics-users-list-component :users="users"></statistics-users-list-component>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
+                
+                <!-- Dashboard Header Section    -->
+
+
 
                 <!-- Page Footer-->
                 <footer class="main-footer">
@@ -52,11 +52,11 @@
 <script type="text/javascript">
 
     export default {
-        data: function () {
+        data: function(){
 
             return {
-                user: '',
-                users: '',
+                user:'',
+                
 
             }
         },
@@ -65,48 +65,24 @@
                 axios.get('/api/user')
                     .then((response) => {
                         this.user = response.data;
+                        console.log(this.user);
+
                     })
                     .catch((error) => {
 
                     });
             },
-            getUsers: function () {
-                axios.get('api/statistics/users')
-                    .then(response => {
-                        this.users = response.data;
-                    });
-            },
         },
-        computed: {},
-        components: {},
-        created: function () {
+        computed: {
+
+        },
+        components: {
+
+        },
+        created: function(){
             this.getUser();
-            this.getUsers();
         }
 
 
     }
-    $('#toggle-btn').on('click', function (e) {
-        e.preventDefault();
-        $(this).toggleClass('active');
-
-        $('.side-navbar').toggleClass('shrinked');
-        $('.content-inner').toggleClass('active');
-        $(document).trigger('sidebarChanged');
-
-        if ($(window).outerWidth() > 1183) {
-            if ($('#toggle-btn').hasClass('active')) {
-                $('.navbar-header .brand-small').hide();
-                $('.navbar-header .brand-big').show();
-            } else {
-                $('.navbar-header .brand-small').show();
-                $('.navbar-header .brand-big').hide();
-            }
-        }
-
-        if ($(window).outerWidth() < 1183) {
-            $('.navbar-header .brand-small').show();
-        }
-    });
-
 </script>

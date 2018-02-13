@@ -35,3 +35,34 @@ li > a.router-link-active {
   color: #EEF5F9;
   border-left: 4px solid #3b25e6 !important;
 }
+
+.myHand{
+  max-width: 40px;
+  margin: 2px;
+  padding: 0px;
+  //position: absolute;
+}
+.teamMateHand{
+  max-width: 40px;
+  margin: 2px;
+  padding: 0px;
+  //position: absolute;
+}
+.myHand:hover{
+  //max-width: 80px;
+  transform: scale(2);
+  margin: 2px;
+  padding: 0px;
+  position: absolute;
+}
+.oponentsHand{
+  max-width: 40px;
+  margin: -8px;
+  padding: 0px;
+  /* transform: rotate(90deg); */
+}
+.playedCard{
+  max-width: 40px;
+  margin: 4px;
+  padding: 0px;
+}

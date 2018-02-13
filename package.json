@@ -26,6 +26,7 @@
         "chart.js": "^2.7.1",
         "font-awesome": "^4.7.0",
         "hchs-vue-charts": "^1.2.8",
+        "vue-socket.io": "^2.1.1-b",
         "vue2-datepicker": "^1.8.3"
     }
 }

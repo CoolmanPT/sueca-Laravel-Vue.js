@@ -1,5 +1,7 @@
+var shuffle = require('shuffle-array');
+
 class GameSueca {
-    constructor(ID, player_id, player1Name, socket_id, playerAvatar) {
+    constructor(ID, player_id, player1Name, socket_id) {
         this.gameID = ID;
         this.gameEnded = false;
         this.gameStarted = false;

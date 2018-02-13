@@ -6,7 +6,7 @@
                     <img :src="deck.hidden_face_image_path" alt="img" class="img-fluid ml-auto mr-auto">
                     <div class="form-group" v-if="deck.id != 1">
                         <input type="file" v-on:change="onFileChange" class="form-control-file">
-                    <button class="btn btn-dark" @click.prevent="upload(card)">Upload</button>
+                    <button class="btn btn-dark" @click.prevent="upload()">Upload</button>
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -97,7 +97,7 @@ module.exports = {
       };
       reader.readAsDataURL(file);
     },
-    upload(card) {
+    upload() {
       const data = {
         image: this.image,
       };

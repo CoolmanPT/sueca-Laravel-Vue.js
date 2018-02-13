@@ -13,4 +13,5 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/loginVue.js', 'public/js')
     .js('resources/assets/js/adminVue.js', 'public/js')
+    .js('resources/assets/js/gameVue.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');

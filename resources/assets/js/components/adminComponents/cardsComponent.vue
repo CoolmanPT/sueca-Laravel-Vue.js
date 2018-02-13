@@ -105,7 +105,6 @@ module.exports = {
       axios
         .put("/api/editcard/" + card.id, data)
         .then(response => {
-          this.$router.go(this.$router.currentRoute);
         })
         .catch(error => {
           this.serverErrorCode = error.response.data;

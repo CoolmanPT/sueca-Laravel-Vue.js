@@ -3,7 +3,8 @@
         <div class="card-header">
             <h3 class="h4 text-dark">Statistics of Players</h3>
         </div>
-        <table class="table table-hover table-responsive-sm">
+        <div class="card-body">
+            <table class="table table-hover table-responsive-sm">
             <thead>
             <tr>
                 <th class="bg-dark text-light">Nickname</th>
@@ -27,6 +28,7 @@
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
 
 </template>

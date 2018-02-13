@@ -1,7 +1,5 @@
 var GameSueca = require('./gamemodel.js');
 
-var SuecaGame = require('./gamemodel.js');
-
 class GameList {
 	constructor() {
         this.contadorID = 0;
@@ -13,20 +11,21 @@ class GameList {
     	return game;
     }
 
-    createGame(playerID, playerName, socketID, avatar) {
+    createGame(playerID, playerName, socketID) {
+		console.log("Gamelist: " + "" +playerID + "" +playerName + "" +socketID)
     	this.contadorID = this.contadorID+1;
-    	var game = new SuecaGame(this.contadorID, playerID, playerName, socketID, avatar);
-    	//game.player1SocketID = socketID;
-    	this.games.set(game.gameID, game);
+    	var game = new GameSueca(this.contadorID, playerID, playerName, socketID);
+		this.games.set(game.gameID, game);
+		console.log(game);
     	return game;
     }
 
-    joinGame(gameID, playerID, playerName, socketID, avatar) {
+    joinGame(gameID, playerID, playerName, socketID) {
     	let game = this.gameByID(gameID);
     	if (game===null) {
     		return null;
 		}
-		if(game.join(playerID, playerName, socketID, avatar)){
+		if(game.join(playerID, playerName, socketID)){
 			return game;
 		}
 		else{
