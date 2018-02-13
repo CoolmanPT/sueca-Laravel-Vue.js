@@ -36,6 +36,7 @@ const decks = Vue.component('decks-component', require('./components/adminCompon
 const newDeck = Vue.component('new-deck-component', require('./components/adminComponents/newDeckComponent.vue'));
 const cards = Vue.component('card-component', require('./components/adminComponents/cardsComponent.vue'));
 const adminProfile = Vue.component('admin-profile-component', require('./components/adminComponents/adminProfile.vue'));
+const usersStats = Vue.component('statistics-component', require('./components/adminComponents/statisticsComponent.vue'));
 Vue.component('platform-email-settings-component', require('./components/adminComponents/platform-email_settingsComponent.vue'));
 Vue.component('admin-change-email-component', require('./components/adminComponents/admin-change_emailComponent.vue'));
 Vue.component('admin-change-password-component', require('./components/adminComponents/admin-change_passwordComponent.vue'));
@@ -47,8 +48,9 @@ Vue.component('users-list-component', require('./components/adminComponents/user
 Vue.component('player-overview-component', require('./components/adminComponents/playOverviewComponent.vue'));
 Vue.component('decks-list-component', require('./components/adminComponents/decksListComponent.vue'));
 Vue.component('deck-overview-component', require('./components/adminComponents/deckOverviewComponent.vue'));
-
-
+Vue.component('statistics-component', require('./components/adminComponents/statisticsComponent.vue'));
+Vue.component('statistics-users-list-component', require('./components/adminComponents/statisticsUserComponent.vue'));
+Vue.component('statistics-games-day-component', require('./components/adminComponents/statistics-games-day-component.vue'));
 /*ROUTES*/
 const routes = [
     { path: '/', redirect: 'dashboard' },
@@ -58,8 +60,8 @@ const routes = [
     { path: '/users', component: users },
     { path: '/decks', component: decks },
     { path: '/newDeck', component: newDeck},
+    { path: '/statistics', component: usersStats},
     { path: '/cards/:deckid', component: cards},
-
 ];
 
 const router = new VueRouter({

@@ -13,7 +13,7 @@ class Game extends Model
      * @var array
      */
     protected $fillable = [
-        'status', 'total_players', 'created_by', 'deck_used'
+        'status', 'team1_cardpoints', 'team2_cardpoints', 'team_winner', 'created_by', 'deck_used'
     ];
 
     /**
