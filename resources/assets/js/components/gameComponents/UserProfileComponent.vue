@@ -1,38 +1,23 @@
 <template>
     <div class="page">
-        <navbar-component></navbar-component>
+        <navbar-component-game :user="user"></navbar-component-game>
 
         <div class="page-content d-flex align-items-stretch">
-            <sidebar-component :user="user"></sidebar-component>
-
-
-            <div class="content-inner">
+            
+            <div class="content-inner-game">
                 <!-- Page Header-->
                 <header class="page-header">
                     <div class="container-fluid">
-                        <h2 class="no-margin-bottom">Administrator Settings</h2>
+                        <h2 class="no-margin-bottom">Player Settings</h2>
                     </div>
                 </header>
                 <!-- Platform Email Section-->
                 <section class="forms">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="card">
-                                    <admin-change-email-component></admin-change-email-component>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                               <div class="card">
-                                   <admin-avatar-change-component :user="user"></admin-avatar-change-component>
-                               </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="card">
-                                    <admin-change-password-component></admin-change-password-component>
+                                    <player-change-settings-component :user="user"></player-change-settings-component>
                                 </div>
                             </div>
                         </div>

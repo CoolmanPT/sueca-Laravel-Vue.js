@@ -129,7 +129,6 @@
                 var imgSrc = String(cardNumber);
                 return 'img/cards/' + imgSrc + '.png';
             },
-
         }
     }
 </script>

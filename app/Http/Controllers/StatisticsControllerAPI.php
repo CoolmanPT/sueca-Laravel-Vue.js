@@ -95,6 +95,37 @@ class StatisticsControllerAPI extends Controller
 
     }
 
+    public function userS(Request $request) {
+       
+        
+        $user = User::where('id', $request->user2)->first();
+        $userarray = array('nickname' => $user->nickname, 
+        'total_points' => $user->total_points,
+        'total_games_played' => $user->total_games_played,
+        'wins' => 0,
+        'ties' => 0,
+        'losses' => 0);
+
+        foreach ($user->games as $game) {
+            if (is_null($game->team_winner)) {
+                // tie
+                $userarray['ties']++;
+
+            } else {
+            
+                if ($game->team_winner == $game->pivot->team_number) {
+                    // win
+                    $userarray['wins']++;
+                } else {
+                    // loss
+                    $userarray['losses']++;
+                }
+            }
+            
+        }
+        return $userarray;
+    }
+
     public function getGamesPerDate(Request $request)
     {
         $validator = Validator::make($request->all(), [

@@ -29,10 +29,12 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('access_to
 
 /*COMPONENTs*/
 const Games = Vue.component('login-page-component', require('./components/gameComponents/GamesComponent.vue'));
+const Profile = Vue.component('user-profile-component', require('./components/gameComponents/UserProfileComponent.vue'));
 Vue.component('game-lobby', require('./components/gameComponents/lobbyComponent.vue'));
 Vue.component('navbar-component-game', require('./components/gameComponents/navbarComponent.vue'));
-Vue.component('sidebar-component-game', require('./components/gameComponents/sidebarComponent.vue'));
 Vue.component('game', require('./components/gameComponents/game.vue'));
+Vue.component('player-change-settings-component', require('./components/gameComponents/playerChangeSettingsComponent.vue'));
+const UserStatistic = Vue.component('user-statistic', require('./components/gameComponents/userStatisticComponent.vue'));
 
 
 
@@ -40,11 +42,13 @@ Vue.component('game', require('./components/gameComponents/game.vue'));
 const routes = [
     { path: '/', redirect: '/lobby' },
     { path: '/lobby', component: Games },
+    { path: '/profile', component: Profile },
+    { path: '/statistics/:id', component: UserStatistic },
 
 ];
 
 const router = new VueRouter({
-    routes:routes
+    routes: routes
 });
 
 new Vue({

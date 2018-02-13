@@ -32,6 +32,7 @@ Route::post('activate', 'UserControllerAPI@activate');
 Route::middleware('auth:api')->get('users', 'UserControllerAPI@getUsers');
 Route::middleware('auth:api','isAdmin')->get('blockedusers', 'UserControllerAPI@getBlockedUsers');
 Route::middleware('auth:api', 'isAdmin')->get('newusers', 'UserControllerAPI@getNewUsers');
+Route::middleware('auth:api', 'isPlayer')->put('users/{id}', 'UserControllerAPI@updateUser');
 
 
 //SETTINGS
@@ -42,7 +43,9 @@ Route::middleware('auth:api', 'isAdmin')->post('admin/password/update', 'UserCon
 Route::middleware('auth:api', 'isAdmin')->post('/admin/upload/avatar', 'UserControllerAPI@updateAvatar');
 Route::middleware('auth:api', 'isAdmin')->post('/admin/user/state', 'UserControllerAPI@changeState');
 Route::middleware('auth:api', 'isAdmin')->delete('/admin/user/{id}/{reasonToDelete}', 'UserControllerAPI@deletePlayer');
+
 Route::middleware('auth:api', 'isAdmin')->get('/statistics/users', 'StatisticsControllerAPI@getUsersStatistics');
+Route::middleware('auth:api', 'isPlayer')->post('/statistics/user', 'StatisticsControllerAPI@userS');
 Route::middleware('auth:api', 'isAdmin')->post('/statistics/date', 'StatisticsControllerAPI@getGamesPerDate'); 
 
 //DECKS AND CARDS

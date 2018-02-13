@@ -291,7 +291,6 @@ class UserControllerAPI extends Controller
 
 	public function deletePlayer($id, $reasonToDelete)
 	{
-		//var_dump($request->input('reasonToDelete'));
 		try {
 			$user = User::findOrFail($id);
 			$msg = 'Account deleted';
@@ -329,6 +328,31 @@ class UserControllerAPI extends Controller
 			print_r($e);
 			exit();
 			return response()->json(['msg' => 'Problem sending email.'], 400);
+		}
+	}
+
+
+	public function updateUser(int $id, Request $request) {
+			try {
+				$user = User::findOrFail($id);
+				$imageData = $request->image;
+				$filename  = 'avatar.png';
+				
+				$path = public_path('img/avatars/' . $filename);
+
+				Image::make($imageData)->resize(100, 100)->save($path);
+				
+				$user->avatar = '/img/avatars/' . $filename;
+				$user->name = $request->name;
+				$user->nickname = $request->nickname;
+				$user->email = $request->email;
+				$user->password = Hash::make($request->password);
+				$user->save();
+        		return new UserResource($user);
+			
+		} catch(\Exception $ex) {
+			return response()->json(['msg' => $ex->getMessage()]);
+			
 		}
 	}
 }

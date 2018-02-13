@@ -21,9 +21,10 @@
                     <div class="clearfix">
                         <div class="alert alert-danger" role="alert" v-cloak v-show="isFormInvalid && missingPassword">
                             <p v-if="missingPassword">Fill Password</p>
-                            <p v-if="serverError">{{serverErrorMessage}}</p>
+                            
                         </div>
                     </div>
+                    <p v-if="serverError">{{serverErrorMessage}}</p>
 
                     <router-link to="/password/reset" class="float-right text-muted mt-0 small font-italic" >Forgot Password?</router-link>
 
@@ -78,7 +79,6 @@
                         username: this.username,
                         password: this.password,
                     };
-                    console.log(this.username + this.password);
                     axios.post('/api/login', data)
                         .then((response) => {
                             localStorage.setItem('access_token', 'Bearer ' + response.data.access_token);
@@ -94,11 +94,12 @@
                                 })
                                 .catch((error) => {
                                     this.serverError = true;
+                                    this.serverErrorMessage = error.response;
                                 });
                         })
                         .catch((error) => {
                             this.serverError = true;
-                            this.serverErrorMessage = error.response;
+                            this.serverErrorMessage = error.response.msg;
                         });
                 }
             },

@@ -22,7 +22,6 @@
         "vue-router": "^3.0.1"
     },
     "dependencies": {
-        "@fengyuanchen/datepicker": "^0.6.4",
         "chart.js": "^2.7.1",
         "font-awesome": "^4.7.0",
         "hchs-vue-charts": "^1.2.8",

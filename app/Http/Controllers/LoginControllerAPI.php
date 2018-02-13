@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\DB;
 
 
 define('YOUR_SERVER_URL', 'http://recurso.rip');
-define('CLIENT_ID', '4');
-define('CLIENT_SECRET', 'vpL26O6HDTgllJajc5xeDU5FsHVhYzZ5nDdGwn6c');
+define('CLIENT_ID', '2');
+define('CLIENT_SECRET', 'hJnGUB3QH80jlx3ZkSVfw2yMlDDdKOUk5sfwIIKm');
 
 class LoginControllerAPI extends Controller
 {
@@ -35,6 +35,7 @@ class LoginControllerAPI extends Controller
         if ($user->blocked == 1) {
             return response()->json(['msg' => 'User Blocked.'], 400);
         }
+        
         $http = new Client;
         $response = $http->post(YOUR_SERVER_URL . '/oauth/token', [
             'form_params' => [

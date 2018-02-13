@@ -6,7 +6,7 @@
                 <div class="navbar-holder d-flex align-items-center justify-content-between">
                     <!-- Navbar Header-->
                     <div class="navbar-header">
-                        <router-link to="dashboard"><div class="brand-text brand-big h4"><span>Recurso Sueca</span></div>
+                        <router-link to="/lobby"><div class="brand-text brand-big h4"><span>Recurso Sueca</span></div>
                             <div class="brand-text brand-small"><strong>Sueca</strong></div>
                         </router-link>
                         <!-- Toggle Button--><a v-on:click.prevent="toggleSidebar" class="menu-btn active"><span></span><span></span><span></span></a>
@@ -17,12 +17,14 @@
                         <!-- SETTINGS                       -->
                         <li class="nav-item dropdown"> <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-cogs"></i></a>
                             <ul aria-labelledby="" class="dropdown-menu">
-                                <li class="align-items-center align-content-center"><router-link to="/profile" class="dropdown-item d-flex align-items-center align-content-center"> <div class="align-items-center align-content-center d-flex"> <i class="fa fa-user fa-fw bg-dark"></i></div>
+                                <li class="align-items-center align-content-center">
+                                    <router-link to="/profile" class="dropdown-item d-flex align-items-center align-content-center"> <div class="align-items-center align-content-center d-flex"> <i class="fa fa-user fa-fw bg-dark"></i></div>
                                     <div class="msg-body">
                                         <h6 class="">Profile</h6></div></router-link></li>
-                                <li class="align-items-center align-content-center"><router-link to="/settings" class="dropdown-item d-flex align-items-center align-content-center"> <div class=" align-items-center align-content-center d-flex"> <i class="fa fa-lock fa-fw bg-secondary"></i></div>
+                                <li class="align-items-center align-content-center">
+                                    <router-link :to="{ path: 'statistics/' + user.id}" class="dropdown-item d-flex align-items-center align-content-center"> <div class="align-items-center align-content-center d-flex"> <i class="fa fa-user fa-fw bg-dark"></i></div>
                                     <div class="msg-body">
-                                        <h6 class="">Settings</h6></div></router-link></li>
+                                        <h6 class="">Statistics</h6></div></router-link></li>
 
                             </ul>
                         </li>
@@ -38,6 +40,7 @@
 <script type="text/javascript">
 
     export default {
+        props: ['user'],
         data: function(){
 
             return {}

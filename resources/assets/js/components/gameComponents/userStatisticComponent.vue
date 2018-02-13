@@ -10,7 +10,7 @@
                 <!-- Page Header-->
                 <header class="page-header">
                     <div class="container-fluid">
-                        <h2 class="no-margin-bottom">Playing Area</h2>
+                        <h2 class="no-margin-bottom">User Statistics</h2>
                     </div>
                 </header>
                 <!-- Dashboard Counts Section-->
@@ -19,9 +19,29 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card">
-                                    <game-lobby :user="user"></game-lobby>
-                                    
+            <table class="table table-hover table-responsive-sm">
+                <thead>
+                <tr>
+                    <th class="bg-dark text-light">Nickname</th>
+                    <th class="bg-dark text-light">Games Played</th>
+                    <th class="bg-dark text-light">Total Points</th>
+                    <th class="bg-dark text-light">Wins</th>
+                    <th class="bg-dark text-light">Ties</th>
+                    <th class="bg-dark text-light">Losses</th>
+                </tr>
+                </thead>
+            <tbody>
 
+            <tr class="clickable collapse-row collapsed">
+                <td>{{ user.nickname }}</td>
+                <td>{{ user.total_points }}</td>
+                <td>{{ user.total_games_played }}</td>
+                <td>{{ user.wins }}</td>
+                <td>{{ user.ties }}</td>
+                <td>{{ user.losses }}</td>
+            </tr>
+            </tbody>
+        </table>
                                 </div>
                             </div>
                         </div>
@@ -61,8 +81,12 @@
             }
         },
         methods: {
-            getUser: function () {
-                axios.get('/api/user')
+            getUserStatistic: function () {
+                const data = {
+                    user2:this.$route.params.id,
+                }
+                console.log(this.$route.params.id);
+                axios.post('/api/statistics/user', data)
                     .then((response) => {
                         this.user = response.data;
 
@@ -79,7 +103,7 @@
 
         },
         created: function(){
-            this.getUser();
+            this.getUserStatistic();
         }
 
 

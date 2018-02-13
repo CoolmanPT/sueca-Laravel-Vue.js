@@ -1,35 +1,52 @@
 <template>
     <div>
+        <div class="card-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-auto">
+                        <h3 class="h4 text-dark">Player: {{user.nickname}}</h3>
+                        
+                    </div>
+                    <div class="col-auto ml-auto">
+                    </div>
 
-            <h2>PLayer: {{user.nickname}}</h2>
-
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body">
             <h3 class="text-center">Lobby</h3>
             <p>
                 <button class="btn btn-xs btn-success" v-on:click.prevent="createGame">Create a New Game</button>
             </p>
             <hr>
             <h4>Pending games (
-                <a @click.prevent="loadLobby">Refresh</a>)</h4>
+                <a @click.prevent="loadLobby" class="link">Refresh</a></h4>
             <lobby :games="lobbyGames" :user="user" @join-click="join" @start-game="start"></lobby>
             <template v-for="game in activeGames">
                 <game :game="game" @start-game="start" @play="play" :user="user" @send-message="sendMessage"></game>
             </template>
-        
+        </div>
     </div>
 </template>
 
 <script type="text/javascript">
     import Lobby from './lobbyList.vue';
     import Game from './game.vue';
+    import Statistic from './userStatisticComponent.vue';
 
     export default {
         props: ['user'],
         data: function () {
             return {
+                userStatistic:this.user,
                 title: 'Sueca',
                 lobbyGames: [],
                 activeGames: [],
                 socketId: "",
+                isOpen: false,
+                
+                
 
             }
         },
@@ -49,7 +66,6 @@
                 this.loadActiveGames();
             },
             my_active_games(games) {
-                //console.table(games);
                 this.activeGames = games;
             },
             my_lobby_games(games) {
@@ -92,6 +108,18 @@
 
         },
         methods: {
+            getUserStatistic() 
+            {
+                console.log(this.currentPlayer);
+                axios.post('/api/statistics/userstatistic', )
+                    .then((response) => {
+                        this.userStatistic = response.data;
+                    })
+                    .catch((error) => {
+                        console.log(error.response);
+                    });
+            },
+
             loadLobby() {
                 this.$socket.emit('get_my_lobby_games');
             },
@@ -130,8 +158,6 @@
                         playerID: this.user.id,
                         index: data.index,
                     });
-                
-                //console.log("CARDINDEX: "+ index);
 
             },
             close(game) {
@@ -152,11 +178,19 @@
         components: {
             'lobby': Lobby,
             'game': Game,
+            'user-statistic': Statistic,
         },
         mounted() {
-            this.currentPlayer = this.user.id;
+            
+            
+        },
+
+        created(){
+           this.currentPlayer = this.user.id;
             this.loadLobby();
+            console.log(this.currentPlayer);
         }
+
 
     }
 </script>
