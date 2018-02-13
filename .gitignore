@@ -15,3 +15,5 @@ yarn-error.log
 /public/img/decks/*
 /.vs
 /.vscode
+package-lock.json
+/node_server/node_modules/
