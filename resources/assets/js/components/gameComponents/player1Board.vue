@@ -5,7 +5,7 @@
         </div>
         <div>
             <h2 class="text-center bg-primary text-white">Game {{ game.gameID }}</h2>
-
+            <br>
 
             <div v-if="game.players[0].playerID != game.playerTurn" v-for="(player, index) in game.players">
                 <h3 v-if="player.playerID === game.playerTurn" class="text-center bg-info text-white">{{player.name}} Turn</h3>
