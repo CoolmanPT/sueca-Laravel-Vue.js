@@ -57,7 +57,11 @@ Route::middleware('auth:api', 'isAdmin')->get('getcurrentdeck/{id}', 'DeckContro
 Route::middleware('auth:api', 'isAdmin')->put('editcard/{id}', 'DeckControllerAPI@editCardImage');
 Route::middleware('auth:api', 'isAdmin')->put('editdeckimg/{id}', 'DeckControllerAPI@editDeckImg');
 
-
+Route::post('/game/create', 'GameControllerAPI@create');
+Route::post('/game/join', 'GameControllerAPI@join');
+Route::put('/game/start', 'GameControllerAPI@start');
+Route::put('game/results', 'GameControllerAPI@results');
+Route::put('/game/renuncia', 'GameControllerAPI@renuncia');
 
 
 

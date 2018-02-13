@@ -1,4 +1,4 @@
-// Fonts
+    // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
@@ -71,4 +71,11 @@ li>a.router-link-active {
     width: calc(100%);
     min-height: calc(100vh - 70px);
     padding-bottom: 60px;
-}
+    .playedCard {
+        max-width: 40px;
+        margin: 4px;
+        padding: 0px;
+    }
+    .center-zone {
+        height: 200pt;
+    }
