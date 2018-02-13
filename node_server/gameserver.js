@@ -23,11 +23,12 @@ io.on('connection', function (socket) {
 	console.log('client has connected');
 
 	socket.on('create_game', function (data) {
-		let game = games.createGame(data.playerID, data.playerName, socket.id, data.avatar);
-		socket.join(game.gameID);
-		// Notifications to the client
-		socket.emit('my_active_games_changed');
-		io.emit('lobby_changed');
+		games.createGame(data.playerID, data.playerName, socket.id, function(game) {
+			socket.join(game.gameID);
+			// Notifications to the client
+			socket.emit('my_active_games_changed');
+			io.emit('lobby_changed');
+		});
 	});
 
 	socket.on('start_game', function (data) {
@@ -41,7 +42,7 @@ io.on('connection', function (socket) {
 		if (game){
 			socket.join(game.gameID);
 			io.to(game.gameID).emit('my_active_games_changed');
-		io.emit('lobby_changed');
+			io.emit('lobby_changed');
 		}
 		
 	});
@@ -55,9 +56,7 @@ io.on('connection', function (socket) {
 		console.log("PlayerID on gameserver.js " + data.playerID);
 		let game = games.gameByID(data.gameID);				
 		if (game.play(data.playerID, data.index)) {			
-			io.to(game.gameID).emit('game_changed', game);
-			
-			
+			io.to(game.gameID).emit('game_changed', game);			
 			
 			if(game.cardsOnTable == 4){
 				var timer = setTimeout(function(){
@@ -66,10 +65,6 @@ io.on('connection', function (socket) {
 				},2000, game);
 
 			}
-
-
-
-						
 		} else {
 			socket.emit('invalid_play', {
 				'type': 'Wrong_Turn',

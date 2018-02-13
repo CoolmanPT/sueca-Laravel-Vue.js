@@ -1,8 +1,11 @@
 var shuffle = require('shuffle-array');
+var axios = require('axios');
+
+var apiBaseURL = "http://recurso.rip/api/";
 
 class GameSueca {
-    constructor(ID, player_id, player1Name, socket_id) {
-        this.gameID = ID;
+    constructor(player_id, player1Name, socket_id) {
+        this.gameID = undefined;
         this.gameEnded = false;
         this.gameStarted = false;
         this.winnerTeam = undefined;
@@ -17,6 +20,9 @@ class GameSueca {
         this.rounds = 0;
         this.cardToAssist = undefined;
         
+        this.deckId = 1;
+        this.creatorId = player_id;
+
         let player = {
             playerID: player_id,
             socketID: socket_id,
@@ -56,7 +62,21 @@ class GameSueca {
                 renuncia: false
             }
             this.playerCount = this.players.push(player);
-            return true;
+
+                const data = {
+                    'user_id': player.playerID,
+                    'game_id': this.gameID,
+                    'team_number': player.team                  
+                }
+                axios.post(apiBaseURL + 'game/join', data)
+                .then(response => {
+                    
+                })
+                .catch(error => {
+                   console.log(error.response.data); 
+                });
+                return true;
+            
         }else{
             return false;
         }
@@ -64,6 +84,18 @@ class GameSueca {
     }
 
     startGame() {
+        const data = {
+            'game_id': this.gameID
+        }
+        axios.put(apiBaseURL + 'game/start', data)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                   console.log(error.response.data); 
+                });
+
+
         let deck = this.createDeck();
         for (let i = 0; i < 40; i++) {
             shuffle(deck);
@@ -85,7 +117,7 @@ class GameSueca {
                 drawCardsTo++;
             }
         }
-        //deck = undefined;
+
         this.gameStarted = true;
     }
 
