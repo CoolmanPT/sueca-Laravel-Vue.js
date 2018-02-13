@@ -39,6 +39,12 @@ class GameSueca {
         this.team1Points = 0;
         this.team2Points = 0;
         this.cardsOnTable = 0;
+
+        this.team1MatchPoints = 0;
+        this.team2MatchPoints = 0;
+
+        this.teamRenunciaDesconfia = 0;
+        this.teamRenunciou = 0;
     }
 
     //METHODS
@@ -141,7 +147,7 @@ drawCards(drawCardsTo, deck) {
            var playerIndex = this.players.findIndex(obj => obj.playerID == player_id);
            if (this.cardsOnTable == 0) {
                this.cardToAssist = this.players[playerIndex].hand[cardIndex].suit;
-               console.log("CARTA TO ASSIST " + this.cardToAssist);  
+               //console.log("CARTA TO ASSIST " + this.cardToAssist);  
 
            } else {
                this.hasRenuncia(playerIndex, cardIndex);
@@ -172,12 +178,12 @@ drawCards(drawCardsTo, deck) {
 
         
         for (let i = 0; i < this.players.length; i++) {
-            console.log("PONTOS DA CARTA " + this.players[i].cardTable.points);
-            console.log("NOME DA CARTA " + this.players[i].cardTable.image);
+            //console.log("PONTOS DA CARTA " + this.players[i].cardTable.points);
+            //console.log("NOME DA CARTA " + this.players[i].cardTable.image);
             pontosDaRonda += this.players[i].cardTable.points;
         }
 
-        console.log("PONTOS DA RONDA " + pontosDaRonda);
+        //console.log("PONTOS DA RONDA " + pontosDaRonda);
 
         if (playerVencedorNumero === 0 || playerVencedorNumero === 1) {
             this.team1Points +=  pontosDaRonda;
@@ -186,7 +192,9 @@ drawCards(drawCardsTo, deck) {
         }
 
         this.rounds++;
+        console.log(this.rounds);
         if(this.rounds>=10){
+            console.log("TEM 10 RONDAS!!!!!!!!!!");
             this.finishGame();
         }
 
@@ -240,29 +248,57 @@ drawCards(drawCardsTo, deck) {
             if(this.players[i].playerID == player_id){
                 if(this.players[i].team === 1){
                     if(this.players[2].renuncia === true || this.players[3].renuncia === true){
-                        //equi+a 1 ganha renuncia confirmada
-                        //derrota grupo2 renuncia confirmada 
-                        /*conn.setWin(this.gameID, this.players[0], 4);
-                        conn.setLost(this.gameID, this.players[1], -4);
-                        conn.setWin(this.gameID, this.players[2], 4);
-                        conn.setLost(this.gameID, this.players[3], -4);
-                        conn.gameTerminate(this.gameID);*/
+                        this.teamRenunciaDesconfia = 1;
+                        this.teamRenunciou = 2;
+                        this.team1MatchPoints = 4;
+                        this.team2MatchPoints = -4;
+                        this.winnerTeam = 1;
                         console.log("TEAM 1 GANHA RENUNCIA CONFIRMADA");
                     }else{
                          //equi+a 1 perde renuncia não confirmada
+                         this.teamRenunciaDesconfia = 1;
+                         this.teamRenunciou = 0;
+                         this.team1MatchPoints = -4;
+                         this.team2MatchPoints = 4;
+                         this.winnerTeam = 2;
                          console.log("TEAM 1 PERDE RENUNCIA NÃO CONFIRMADA");
                      }
                  }else{
                     if(this.players[0].renuncia === true || this.players[1].renuncia === true){
                         //equi+a 2 ganha renuncia confirmada
+                         this.teamRenunciaDesconfia = 2;
+                         this.teamRenunciou = 1;
+                         this.team1MatchPoints = -4;
+                         this.team2MatchPoints = 4;
+                         this.winnerTeam = 2;
                         console.log("TEAM 2 GANHA RENUNCIA CONFIRMADA");
                     }else{
-                         //equi+a 2 perde renuncia não confirmada
+                         this.teamRenunciaDesconfia = 2;
+                         this.teamRenunciou = 0;
+                         this.team1MatchPoints = 4;
+                         this.team2MatchPoints = -4;
+                         this.winnerTeam = 1;
                          console.log("TEAM 2 PERDE RENUNCIA NÃO CONFIRMADA");
                      }
                  }
              }
          }
+         const renunciaInfo = {
+                'game_id': this.gameID,
+                'teamRenunciaDesconfia': this.teamRenunciaDesconfia,
+                'teamRenunciou': this.teamRenunciou,
+                'team1MatchPoints': this.team1MatchPoints, 
+                'team2MatchPoints': this.team2MatchPoints,
+                'team_winner': this.winnerTeam
+            }
+
+            axios.put(apiBaseURL+ 'game/renuncia', renunciaInfo)
+                .then(response => {
+
+                })
+                .catch(error => {
+                 console.log(error.response.data); 
+             });
      }
 
      nextPlayer(actualPlayerIndex) {
@@ -293,73 +329,69 @@ drawCards(drawCardsTo, deck) {
 
 
     finishGame(){
+        console.log("Dentro do metodo");
         while(true){
-            const data = {
-                'game_id': this.gameID
+            console.log("Dentro do while");
+            if (this.team1Points === this.team2Points && this.team1Points === 60) {
+                this.team1MatchPoints = 1;
+                this.team2MatchPoints = 1;
+            }else{
+                if (this.team1Points > this.team2Points){
+                    if (this.team1Points >= 61 && this.team1Points <= 90) {
+                        this.winnerTeam = 1;
+                        this.team1MatchPoints = 1;
+                        this.team2MatchPoints = 0;
+                    }
+                    if (this.team1Points >= 91 && this.team1Points <= 119) {
+                        this.winnerTeam = 1;
+                        this.team1MatchPoints = 2;
+                        this.team2MatchPoints = 0;
+                    }
+                    if (this.team1Points ===120) {
+                        this.winnerTeam = 1;
+                        this.team1MatchPoints = 4;
+                        this.team2MatchPoints = 0;
+                    }
+                }else{
+                    if(this.team2Points > this.team1Points){
+                        if (this.team2Points >= 61 && this.team2Points <= 90) {
+                            this.winnerTeam = 2;
+                            this.team1MatchPoints = 0;
+                            this.team2MatchPoints = 1;
+                        }
+                        if (this.team2Points >= 91 && this.team2Points <= 119) {
+                            this.winnerTeam = 2;
+                            this.team1MatchPoints = 0;
+                            this.team2MatchPoints = 2;
+                        }
+                        if (this.team2Points ===120) {
+                            this.winnerTeam = 2;
+                            this.team1MatchPoints = 0;
+                            this.team2MatchPoints = 4;
+                        }
+                    }
+                }
             }
-            axios.put(apiBaseURL + 'game/finish', data)
-                .then(response => {
+            console.log("Antes do axios");
+            const points = {
+                'game_id': this.gameID,
+                'team1Points': this.team1Points,
+                'team2Points': this.team2Points,
+                'team1MatchPoints': this.team1MatchPoints, 
+                'team2MatchPoints': this.team2MatchPoints,
+                'team_winner': this.winnerTeam
+            }
+            console.log(points);
 
+            axios.put(apiBaseURL+ 'game/results', points)
+                .then(response => {
+                    console.log("axios sucesso");
                 })
                 .catch(error => {
                  console.log(error.response.data); 
              });
 
-            if (this.team1Points === this.team2Points && this.team1Points === 60) {
-                /*conn.setTie(this.gameID, this.players[0], 0);
-                conn.setTie(this.gameID, this.players[1], 0);
-                conn.setTie(this.gameID, this.players[2], 0);
-                conn.setTie(this.gameID, this.players[3], 0);*/
-                break;
-            }else{
-                if (this.team1Points > this.team2Points){
-                    if (this.team1Points >= 61 && this.team1Points <= 90) {
-                        /*conn.setWin(this.gameID, this.players[0], 1);
-                        conn.setLost(this.gameID, this.players[1], 0);
-                        conn.setWin(this.gameID, this.players[2], 1);
-                        conn.setLost(this.gameID, this.players[3], 0);*/
-                        break;
-                    }
-                    if (this.team1Points >= 91 && this.team1Points <= 119) {
-                        /*conn.setWin(this.gameID, this.players[0], 2);
-                        conn.setLost(this.gameID, this.players[1], 0);
-                        conn.setWin(this.gameID, this.players[2], 2);
-                        conn.setLost(this.gameID, this.players[3], 0);*/
-                        break;
-                    }
-                    if (this.team1Points ===120) {
-                        /*conn.setWin(this.gameID, this.players[0], 4);
-                        conn.setLost(this.gameID, this.players[1], 0);
-                        conn.setWin(this.gameID, this.players[2], 4);
-                        conn.setLost(this.gameID, this.players[3], 0);*/
-                        break;
-                    }
-                }else{
-                    if(this.team2Points > this.team1Points){
-                        if (this.team2Points >= 61 && this.team2Points <= 90) {
-                            /*conn.setLost(this.gameID, this.players[0], 0);
-                            conn.setWin(this.gameID, this.players[1], 1);
-                            conn.setLost(this.gameID, this.players[2], 0);
-                            conn.setWin(this.gameID, this.players[3],1 );*/
-                            break;
-                        }
-                        if (this.team2Points >= 91 && this.team2Points <= 119) {
-                            /*conn.setLost(this.gameID, this.players[0], 0);
-                            conn.setWin(this.gameID, this.players[1], 2);
-                            conn.setLost(this.gameID, this.players[2], 0);
-                            conn.setWin(this.gameID, this.players[3], 2);*/
-                            break;
-                        }
-                        if (this.team2Points ===120) {
-                            /*conn.setLost(this.gameID, this.players[0], 0);
-                            conn.setWin(this.gameID, this.players[1], 4);
-                            conn.setLost(this.gameID, this.players[2], 0);
-                            conn.setWin(this.gameID, this.players[3], 4);*/
-                            break;
-                        }
-                    }
-                }
-            }
+
             console.log('estou dentro do loop of DOOM');
             break; // em principio n é necessário
         }
