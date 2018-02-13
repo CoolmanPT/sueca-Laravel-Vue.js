@@ -24,12 +24,11 @@
 
 					<td v-if="game.players[3]"> {{game.players[3].name}}</td>
 					<td v-if="!game.players[3]"> Waiting for player 4</td>
-
+					
 					<td>
-						<a class="btn btn-xs btn-primary" v-on:click.prevent="join(game)" v-if="game.players[0].playerID != user.id">Join</a>
+						<a class="btn btn-xs btn-primary" v-bind:class="{disabled: disable}" v-on:click.prevent="join(game)" v-if="game.players[0].playerID != user.id">Join</a>
 						<a class="btn btn-xs btn-success" v-on:click.prevent="startgame(game)" v-if="game.playerCount==4 && game.players[0].playerID == user.id">Start</a>
 					</td>
-
 				</tr>
 			</tbody>
 		</table>
@@ -40,8 +39,15 @@
 <script type="text/javascript">
 	module.exports={
 		props: ['games', 'user'],
+		data: function() {
+			return {
+				disable: false,
+    };
+  },
         methods: {
+			
             join(game) {
+				this.disable = true,
             	this.$emit('join-click', game);
 			},	
 			startgame(game) {

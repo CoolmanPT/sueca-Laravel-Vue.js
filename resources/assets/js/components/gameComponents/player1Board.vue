@@ -16,8 +16,6 @@
             </div>
             <h3 class="text-center bg-danger text-white font-weight-bold">PONTOS DA TUA EQUIPA - {{ game.team1Points }} / PONTOS DA EQUIPA ADVERSARIA - {{ game.team2Points }}</h3>
                 
-            
-
         </div>
         <br>
         <div class="board container-fluid">

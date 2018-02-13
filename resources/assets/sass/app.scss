@@ -1,81 +1,84 @@
     // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-// Bootstrap
-@import "~bootstrap/scss/bootstrap";
-$fa-font-path: "../../../node_modules/font-awesome/fonts" !default;
-@import 'node_modules/font-awesome/scss/font-awesome.scss';
-@import "default.css";
-body {
-    background: #EEF5F9;
-}
-
-nav.side-navbar.shrinked ul li a i {
-    display: none !important;
-}
-
-.nav-link {
-    cursor: pointer;
-}
-
-.side-navbar {
-    height: auto;
-}
-
-.collapse-row.collapsed+tr {
-    display: none;
-}
-
-li>a.router-link-active {
-    background-color: #796AEE;
-    color: #EEF5F9;
-    border-left: 4px solid #3b25e6 !important;
-}
-
-.myHand {
-    max-width: 40px;
-    margin: 2px;
-    padding: 0px;
-    //position: absolute;
-}
-
-.teamMateHand {
-    max-width: 40px;
-    margin: 2px;
-    padding: 0px;
-    //position: absolute;
-}
-
-.myHand:hover {
-    //max-width: 80px;
-    transform: scale(2);
-    margin: 2px;
-    padding: 0px;
-    position: absolute;
-}
-
-.oponentsHand {
-    max-width: 40px;
-    margin: -8px;
-    padding: 0px;
-    /* transform: rotate(90deg); */
-}
-
-.playedCard {
-    max-width: 40px;
-    margin: 4px;
-    padding: 0px;
-}
-
-.content-inner-game {
-    position: relative;
-    width: calc(100%);
-    min-height: calc(100vh - 70px);
-    padding-bottom: 60px;
+    @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+    // Bootstrap
+    @import "~bootstrap/scss/bootstrap";
+    $fa-font-path: "../../../node_modules/font-awesome/fonts" !default;
+    @import 'node_modules/font-awesome/scss/font-awesome.scss';
+    @import "default.css";
+    body {
+        background: #EEF5F9;
+    }
+    
+    nav.side-navbar.shrinked ul li a i {
+        display: none !important;
+    }
+    
+    .nav-link {
+        cursor: pointer;
+    }
+    
+    .side-navbar {
+        height: auto;
+    }
+    
+    .collapse-row.collapsed+tr {
+        display: none;
+    }
+    
+    li>a.router-link-active {
+        background-color: #796AEE;
+        color: #EEF5F9;
+        border-left: 4px solid #3b25e6 !important;
+    }
+    
+    .myHand {
+        max-width: 40px;
+        margin: 2px;
+        padding: 0px;
+        //position: absolute;
+    }
+    
+    .teamMateHand {
+        max-width: 40px;
+        margin: 2px;
+        padding: 0px;
+        //position: absolute;
+    }
+    
+    .myHand:hover {
+        //max-width: 80px;
+        transform: scale(2);
+        margin: 2px;
+        padding: 0px;
+        position: absolute;
+    }
+    
+    .oponentsHand {
+        max-width: 40px;
+        margin: -8px;
+        padding: 0px;
+        /* transform: rotate(90deg); */
+    }
+    
     .playedCard {
         max-width: 40px;
         margin: 4px;
         padding: 0px;
     }
+    
+    .content-inner-game {
+        position: relative;
+        width: calc(100%);
+        min-height: calc(100vh - 70px);
+        padding-bottom: 60px;
+    }
+    
+    .playedCard {
+        max-width: 40px;
+        margin: 4px;
+        padding: 0px;
+    }
+    
     .center-zone {
         height: 200pt;
     }
