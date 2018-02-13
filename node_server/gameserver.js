@@ -57,8 +57,6 @@ io.on('connection', function (socket) {
 		if (game.play(data.playerID, data.index)) {			
 			io.to(game.gameID).emit('game_changed', game);
 			
-			
-			
 			if(game.cardsOnTable == 4){
 				var timer = setTimeout(function(){
 					game.finishRound();
@@ -66,9 +64,6 @@ io.on('connection', function (socket) {
 				},2000, game);
 
 			}
-
-
-
 						
 		} else {
 			socket.emit('invalid_play', {
@@ -77,6 +72,12 @@ io.on('connection', function (socket) {
 			});
 			return;
 		}
+	});
+
+	socket.on('desconfiar', function (data) {
+		console.log("Desconfiar player " + data.player);
+		let game = games.gameByID(data.gameID);				
+		game.desconfiar(data.player);
 	});
 
 	socket.on('get_game', function (data) {
