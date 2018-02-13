@@ -24,7 +24,7 @@
                 <a @click.prevent="loadLobby" class="link">Refresh</a></h4>
             <lobby :games="lobbyGames" :user="user" @join-click="join" @start-game="start"></lobby>
             <template v-for="game in activeGames">
-                <game :game="game" @start-game="start" @play="play" :user="user" @send-message="sendMessage"></game>
+                <game :game="game" @start-game="start" @play="play" @desconfiar="desconfiar" :user="user" @send-message="sendMessage"></game>
             </template>
         </div>
     </div>
@@ -158,6 +158,16 @@
                         playerID: this.user.id,
                         index: data.index,
                     });
+
+            },
+            desconfiar(data) {
+              
+                    this.$socket.emit('desconfiar', {
+                        gameID: data.gameID,
+                        playerID: this.user.id,
+                    });
+                
+                //console.log("CARDINDEX: "+ index);
 
             },
             close(game) {

@@ -1,12 +1,11 @@
 <template>
     <div>
         <div class="alert" :class="alertType">
-            <span v-cloak><strong>{{ message }}</strong> &nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span v-cloak><strong>{{ messages }}</strong> &nbsp;&nbsp;&nbsp;&nbsp;</span>
         </div>
         <div>
             <h2 class="text-center bg-primary text-white">Game {{ game.gameID }}</h2>
-
-            
+            <br>
 
             <div v-if="game.players[0].playerID != game.playerTurn" v-for="(player, index) in game.players">
                 <h3 v-if="player.playerID === game.playerTurn" class="text-center bg-info text-white">{{player.name}} Turn</h3>
@@ -14,7 +13,7 @@
             <div v-if="game.players[0].playerID == game.playerTurn">
                 <h3 class="text-center bg-success text-white font-weight-bold">Your Turn</h3>
             </div>
-            <h3 class="text-center bg-danger text-white font-weight-bold">PONTOS DA TUA EQUIPA - {{ game.team1Points }} / PONTOS DA EQUIPA ADVERSARIA - {{ game.team2Points }}</h3>
+            <h3 class="text-center bg-danger text-white font-weight-bold">PONTOS DA TUA EQUIPA - {{ game.team1Points }}</h3>
                 
         </div>
         <br>
@@ -29,6 +28,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12" style="text-align:center">
+
                     <!-- <img v-for="i in 10" v-bind:src="cardImageURL('semFace')" class="myHand"> -->
                     <div v-if="game.gameStarted">
                         <img v-for="card of game.players[1].hand" v-bind:src="cardImageURL(card.imageToShow)" class="teamMateHand">
@@ -61,26 +61,26 @@
                     <!-- TEAMMATE CARD -->
                     <div class="row">
                         <div class="col-md-12" style="text-align:center">
-                            <!--<img v-if="!game.players[1].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">-->
+                            <div v-if="!game.players[1].cardTable" class="noCard"></div>
                             <img v-if="game.players[1].cardTable" v-bind:src="cardImageURL(game.players[1].cardTable.image)" class="playedCard">
                         </div>
                     </div>
                     <div class="row">
                         <!-- LEFT PLAYER CARD -->
                         <div class="col-md-6" style="text-align:center">
-                            <!--<img v-if="!game.players[2].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">-->
+                            <div v-if="!game.players[2].cardTable" class="noCard"></div>
                             <img v-if="game.players[2].cardTable" v-bind:src="cardImageURL(game.players[2].cardTable.image)" class="playedCard">
                         </div>
                         <!-- RIGHT PLAYER CARD -->
                         <div class="col-md-6" style="text-align:center">
-                            <!--<img v-if="!game.players[3].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">-->
+                            <div v-if="!game.players[3].cardTable" class="noCard"></div>
                             <img v-if="game.players[3].cardTable" v-bind:src="cardImageURL(game.players[3].cardTable.image)" class="playedCard">
                         </div>
                     </div>
                     <!-- MY CARD -->
                     <div class="row">
                         <div class="col-md-12" style="text-align:center">
-                            <!--<img v-if="!game.players[0].cardTable" v-bind:src="cardImageURL('semFace')" class="playedCard">-->
+                            <div v-if="!game.players[0].cardTable" class="noCard"></div>
                             <img v-if="game.players[0].cardTable" v-bind:src="cardImageURL(game.players[0].cardTable.image)" class="playedCard">
                         </div>
                     </div>
@@ -122,7 +122,7 @@
             </div>
             <div class="row">
                 <div class="alert-info" v-show="game.gameStarted && !game.gameEnded">
-                    <button type="button" :class="{'disabled': isActive}" class="btn btn-primary" v-on:click="desconfiar">Desconfiar</button>
+                    <button type="button" :class="{'disabled': isDisabled}" class="btn btn-primary" v-on:click="desconfiar">Desconfiar</button>
                 </div>
             </div>
         </div>
@@ -136,28 +136,29 @@
         data: function () {
             return {
                 input: "",
-                messages: []
+                messages: "",
+                alertType:'alert-info',
             }
         },
         computed: {
-            isActive: function(){
-                return this.game.playerTurn == this.game.players[0].playerID;
+            isDisabled: function(){
+                return this.game.playerTurn != this.game.players[0].playerID;
             },
             message: function () {
                 if(!this.game.gameStarted){
-                    return "Game not started yet. Waiting for players... ";
+                    messages="Game not started yet. Waiting for players... ";
                 }else if(this.game.gameEnded){
                     if(this.game.winnerTeam === 1){
                         this.alertType='alert-success';
-                        return "Your TEAM win!!";
+                        messages="Your TEAM won!!";
                     }else{
                         if(this.game.winnerTeam === 2){
-                            this.alertType='alert-success';
-                            return "You TEAM LOST!!";
+                            this.alertType='alert-danger';
+                            messages="You TEAM LOST!!";
                         }else{
                             if(this.game.teamsTied){
-                                this.alertType='alert-danger';
-                                return "You TIED!!";
+                                this.alertType='alert-warning';
+                                messages="You TIED!!";
                             }
                         }
                     }
@@ -170,7 +171,7 @@
                 this.$emit('play', index);
             },
             desconfiar() {
-                this.$emit('desconfiar', 0);
+                this.$emit('desconfiar');
             },
             cardImageURL(cardNumber) {
                 var imgSrc = String(cardNumber);
