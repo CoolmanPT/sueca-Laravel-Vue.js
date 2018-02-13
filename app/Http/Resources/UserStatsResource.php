@@ -17,10 +17,7 @@ class UserStatsResource extends Resource
         return [
             'nickname' => $this->nickname,
             'total_points' => $this->total_points,
-            'total_games_played' => $this->total_games_played,
-            'wins' => $this->wins,
-            'ties' => $this->ties,
-            'losses' => $this->losses
+            'total_games_played' => $this->total_games_played
         ];
     }
 }
