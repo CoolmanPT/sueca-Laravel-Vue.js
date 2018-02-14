@@ -125,6 +125,12 @@
                     <button type="button" :class="{'disabled': isDisabled}" class="btn btn-primary" v-on:click="desconfiar">Desconfiar</button>
                 </div>
             </div>
+            <!--<div class="row">
+                <div class="alert-info" v-show="button == false">
+                    <button type="button" class="btn btn-primary" v-on:click="button = true">teste</button>
+                </div>
+                <div class="alert-info" v-show="button == true"> oi </div>
+            </div>-->
         </div>
         <hr>
     </div>

@@ -355,4 +355,14 @@ class UserControllerAPI extends Controller
 			
 		}
 	}
+
+	public function activeUsers(Request $request){
+		if ($request->wantsJson()) {
+			$users = User::where('admin', 0)->where('activated', 1)->get();
+			$count = $users->count();
+			return $count;
+		} else {
+			return response()->json(['message' => 'Request inválido.'], 400);
+		}
+	}
 }
