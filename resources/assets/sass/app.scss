@@ -45,13 +45,14 @@
         //position: absolute;
     }
     
-    .myHand:hover {
+    .myHand:hover{
         //max-width: 80px;
-        transform: scale(2);
+        opacity: 0.7; 
+        max-width: 40px;
         margin: 2px;
         padding: 0px;
-        position: absolute;
-    }
+        //position: absolute;
+      }
     
     .oponentsHand {
         max-width: 40px;
@@ -81,4 +82,10 @@
     
     .center-zone {
         height: 200pt;
+    }
+      
+    .noCard{
+    height: 60pt;
+    width: 30pt;
+    background-color: rgb(255, 255, 255);
     }

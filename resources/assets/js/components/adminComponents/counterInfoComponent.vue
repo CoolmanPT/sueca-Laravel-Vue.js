@@ -28,6 +28,12 @@
                            <div class="text"><span>Games played today</span></div>
                            <strong class="text-right ml-auto">{{ gamesPerDay }}</strong>
                        </div>
+
+                       <div class="statistic d-flex align-items-center bg-white has-shadow">
+                           <div class="icon bg-orange"><i class="fa fa-play fa-fw"></i></div>
+                           <div class="text"><span>Active players</span></div>
+                           <strong class="text-right ml-auto">{{ activePlayers }}</strong>
+                       </div>
                    </div>
                </div>
            </div>
@@ -45,9 +51,17 @@
                 blockedPlayers: 0,
                 newPlayers: 0,
                 gamesPerDay: 0,
+                activePlayers: 0,
             }
         },
         methods: {
+            getActive: function () {
+                axios.get('api/active')
+                    .then(response => {
+                        this.activePlayers = response.data;
+                    });
+
+            },
             getUsers: function () {
                 axios.get('api/users')
                     .then(response => {
@@ -84,6 +98,7 @@
         components: {},
         mounted: function () {
             this.getUsers();
+            this.getActive();
         }
 
 

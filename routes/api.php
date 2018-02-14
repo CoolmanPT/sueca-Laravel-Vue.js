@@ -34,6 +34,7 @@ Route::middleware('auth:api','isAdmin')->get('blockedusers', 'UserControllerAPI@
 Route::middleware('auth:api', 'isAdmin')->get('newusers', 'UserControllerAPI@getNewUsers');
 Route::middleware('auth:api', 'isPlayer')->put('users/{id}', 'UserControllerAPI@updateUser');
 
+Route::get('/active', 'UserControllerAPI@activeUsers');
 
 //SETTINGS
 Route::middleware('auth:api', 'isAdmin')->get('settings', 'ConfigControllerAPI@getPlatformData');
