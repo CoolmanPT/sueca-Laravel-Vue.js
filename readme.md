@@ -1,17 +1,8 @@
-RECURSO SUECA
-
-PROCEDIMENTO DE INSTALAÇÃO:
-
-1: IMPORTAR O PROJETO PARA O PC
-
-2: CONFIGURAR HOMESTEAD OU LARAGON
-
-3: COMANDOS A USAR:
-
-  3.1 -> COMPOSER UPDATE
-  3.2 -> NPM INSTALL
-  3.3 -> PHP ARTISAN MIGRATE --SEED
-  
-  NAO PRECISAM DE FAZER PASSPORT:INSTALL POIS AS SEEDS JÁ TÊM OS DADOS PARA AS TABELAS!!! UMA VEZ AS TABELAS COM DADOS, ESTES ESTÃO TAMBÉM NOS CONTROLADORES!!!!!! SÓ PRECISAM DE ALTERAR O ENDEREÇO DO SITE, OU CASO QUEIRAM, CRIEM O HOST recurso.rip E NÃO PRECISAM DE MUDAR NADA.
-  
-  FAÇAM AS CONFIGS PARA A BASE DE DADOS QUE QUISEREM, UMA VEZ QUE O FICHEIRO .ENV N VAI COM OS PUSH.
+OBJECTIVO
+O objetivo deste projeto consiste em implementar uma plataforma Web com o Jogo da Sueca em
+multiplayer.
+JOGO DA SUECA
+O jogo da sueca é um jogo para 4 jogadores em duplas, ou seja, é jogado em equipas de dois
+jogadores com os parceiros dispostos em lugares opostos (de frente um para o outro). Apesar de
+existirem várias variantes do jogo, pretende-se com este projeto implementar um jogo da sueca
+que siga as regras descritas neste enunciado
