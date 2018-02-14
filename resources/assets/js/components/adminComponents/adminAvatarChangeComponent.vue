@@ -6,16 +6,16 @@
         <div class="card-body  d-flex align-items-center align-content-center">
                 <div class="row">
                     <div class="col-3">
-                        <img :src="user.avatar" alt="avatar" class="img-fluid ">
+                        <img :src="user.avatar" alt="avatar" class="img-fluid rounded-circle ">
 
                     </div>
                     <div class="col-6 mt-auto mb-auto">
                         <div class="form-group">
 
-                            <input type="file" v-on:change="onFileChange" class="form-control-file ">
+                            <input type="file" v-on:change="onFileChange" class="form-control-file" >
                         </div>
                         <button class="btn btn-dark" @click.prevent="upload">Upload</button>
-                        <p class="help is-danger" v-if="serverErrorCode" >{{serverErrorCode }}</p>
+                        <p class="alert alert-danger" v-if="serverErrorCode" >{{serverErrorCode }}</p>
 
                     </div>
                 </div>

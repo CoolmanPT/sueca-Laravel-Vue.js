@@ -46,7 +46,8 @@ Route::middleware('auth:api', 'isAdmin')->delete('/admin/user/{id}/{reasonToDele
 
 Route::middleware('auth:api', 'isAdmin')->get('/statistics/users', 'StatisticsControllerAPI@getUsersStatistics');
 Route::middleware('auth:api', 'isPlayer')->post('/statistics/user', 'StatisticsControllerAPI@userS');
-Route::middleware('auth:api', 'isAdmin')->post('/statistics/date', 'StatisticsControllerAPI@getGamesPerDate'); 
+Route::middleware('auth:api', 'isAdmin')->post('/statistics/date', 'StatisticsControllerAPI@getGamesPerDate');
+Route::middleware('auth:api', 'isPlayer')->post('/user/upload/avatar', 'UserControllerAPI@updateAvatar');
 
 //DECKS AND CARDS
 Route::middleware('auth:api', 'isAdmin')->get('decks', 'DeckControllerAPI@getDecks');

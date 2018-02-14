@@ -10,8 +10,8 @@
                     </label>
                     <div class="">
                         <input type="password" name="currentPassword" id="currentPassword" v-model="currentPassword" class="form-control">
-                        <span  class="help-block" v-if="missingCurrentPassword">Fill current Password</span>
-                        <span class="help-block" v-if="wrongCurrentPassword">{{ serverErrorMessage }}</span>
+                        <span  class="alert alert-danger" v-if="missingCurrentPassword">Fill current Password</span>
+                        <span class="alert alert-danger" v-if="wrongCurrentPassword">{{ serverErrorMessage }}</span>
                     </div>
                 </div>
                 <div class="form-group" v-bind:class="{ 'has-error': missingNewPassword || invalidNewPassword  }" >
@@ -19,16 +19,16 @@
                     </label>
                     <div class="">
                         <input type="password" name="newPassword" id="newPassword" v-model="newPassword" class="form-control">
-                        <span  class="help-block" v-if="missingNewPassword">Fill new Password</span>
-                        <span  class="help-block" v-if="invalidNewPassword">Password must be at least 6 digits.</span>
+                        <span  class="alert alert-danger" v-if="missingNewPassword">Fill new Password</span>
+                        <span  class="alert alert-danger" v-if="invalidNewPassword">Password must be at least 6 digits.</span>
                     </div>
                 </div>
                 <div class="form-group" v-bind:class="{ 'has-error': missingPasswordConfirmation || wrongPasswordConfirmation  }" >
                     <label class="control-label" for="password_confirmation">Confirm new Password <span class="required">*</span></label>
                     <div class="">
                         <input type="password" name="password_confirmation" id="password_confirmation" v-model="passwordConfirmation" class="form-control">
-                        <span  class="help-block" v-if="missingPasswordConfirmation">Confirm Password</span>
-                        <span  class="help-block" v-if="wrongPasswordConfirmation">Passwords Mismatch</span>
+                        <span  class="alert alert-danger" v-if="missingPasswordConfirmation">Confirm Password</span>
+                        <span  class="alert alert-danger" v-if="wrongPasswordConfirmation">Passwords Mismatch</span>
                     </div>
                 </div>
 

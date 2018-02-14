@@ -12,7 +12,7 @@
                    <div class="clearfix">
                        <div class="alert alert-danger" role="alert" v-cloak v-show="isFormInvalid && missingUsername ">
                            <p v-if="missingUsername">Fill Username/Email</p>
-                           <p v-if="serverError">{{serverErrorMessage}}</p>
+                           
                        </div>
                    </div>
                     <div class="form-group mb-0">
@@ -24,7 +24,7 @@
                             
                         </div>
                     </div>
-                    <p v-if="serverError">{{serverErrorMessage}}</p>
+                    <p v-if="serverError" class="alert alert-danger">{{serverErrorMessage}}</p>
 
                     <router-link to="/password/reset" class="float-right text-muted mt-0 small font-italic" >Forgot Password?</router-link>
 
@@ -90,16 +90,19 @@
                                         window.location.href = '/game'
                                     } else {
                                         this.serverError = true;
+                                        this.serverErrorMessage = 'Invalid user';
                                     }
                                 })
                                 .catch((error) => {
                                     this.serverError = true;
-                                    this.serverErrorMessage = error.response;
+                                    console.log(error);
+                                    this.serverErrorMessage = error.response.data.data;
                                 });
                         })
                         .catch((error) => {
                             this.serverError = true;
-                            this.serverErrorMessage = error.response.msg;
+                            console.log(error);
+                            this.serverErrorMessage = error.response.data.data;
                         });
                 }
             },

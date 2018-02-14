@@ -14,8 +14,8 @@
                                     </label>
                                     <div class="">
                                         <input  type="text" name="plat_email" id="plat_email" v-model="settings.email" class="form-control">
-                                        <span class="help-block" v-if="missingEmail">Fill Email</span>
-                                        <span  class="help-block" v-if="invalidEmail">Invalid Email</span>
+                                        <span class="alert alert-danger" v-if="missingEmail">Fill Email</span>
+                                        <span  class="alert alert-danger" v-if="invalidEmail">Invalid Email</span>
                                     </div>
                                 </div>
 
@@ -24,7 +24,7 @@
                                     </label>
                                     <div class="">
                                         <input type="password" name="plat_password" id="plat_password" v-model="settings.password" class="form-control">
-                                        <span  class="help-block" v-if="missingPassword">Fill Password</span>
+                                        <span  class="alert alert-danger" v-if="missingPassword">Fill Password</span>
                                     </div>
                                 </div>
 
@@ -33,7 +33,7 @@
                                     </label>
                                     <div class="">
                                         <input type="text" name="plat_host" id="plat_host" v-model="settings.host"  class="form-control">
-                                        <span  class="help-block" v-if="missingHost">Fill Host</span>
+                                        <span  class="alert alert-danger" v-if="missingHost">Fill Host</span>
                                     </div>
                                 </div>
 
@@ -42,8 +42,8 @@
                                     </label>
                                     <div class="">
                                         <input type="number" name="plat_port" id="plat_port" v-model="settings.port" class="form-control">
-                                        <span  class="help-block" v-if="missingPort">Fill Port</span>
-                                        <span  class="help-block" v-if="invalidPort">Enter a valid Port Number </span>
+                                        <span  class="alert alert-danger" v-if="missingPort">Fill Port</span>
+                                        <span  class="alert alert-danger" v-if="invalidPort">Enter a valid Port Number </span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -60,6 +60,7 @@
 
                                 <div class="form-group">
                                     <input type="submit" value="Save" class="btn btn-dark float-right">
+                                    <span  class="alert alert-danger" v-if="serverError">{{serverErrorMessage}}</span>
                                 </div>
                             </form>
                         </div>
@@ -156,6 +157,8 @@
                         .then((response) => {
                             this.success = true;
                             this.attemptSubmit = false;
+                            this.serverError = true;
+                            this.serverErrorMessage = 'Data updated!';
                         })
                         .catch((error) => {
                             this.serverError = true;

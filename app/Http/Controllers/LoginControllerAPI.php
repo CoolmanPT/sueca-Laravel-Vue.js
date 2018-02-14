@@ -29,11 +29,16 @@ class LoginControllerAPI extends Controller
 
         $user = User::orWhere('email', $request->username)->orWhere('nickname', $request->username)->first();
         if (!$user) {
-            return response()->json(['msg' => 'User not Found.'], 400);
+            return response()->json(['data' => 'User not Found.'],400);
+            var_dump(response()->json(['data' => 'User not Found.'],401));
         }
 
         if ($user->blocked == 1) {
-            return response()->json(['msg' => 'User Blocked.'], 400);
+            return response()->json(['data' => 'User Blocked.'], 400);
+        }
+
+        if ($user->activated == 0) {
+            return response()->json(['data' => 'User not activated.'], 400);
         }
         
         $http = new Client;

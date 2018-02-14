@@ -29,7 +29,7 @@ class StatisticsControllerAPI extends Controller
     }
 
     public function registedUsers() {
-    	return User::where('admin',0)->count();
+    	return User::where('admin',0)->where('activated',1)->count();
     }
 
     public function activeGames() {

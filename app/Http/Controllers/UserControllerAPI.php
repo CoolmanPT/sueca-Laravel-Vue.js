@@ -210,7 +210,7 @@ class UserControllerAPI extends Controller
 				Image::make($imageData)->resize(100, 100)->save($path);
 				$request->user()->avatar = '/img/avatars/' . $filename;
 				$request->user()->save();
-				return response()->json(['msg' => 'success']);
+				return response()->json(['msg' => 'success'],200);
 			}
 		} catch(\Exception $ex) {
 			return response()->json(['msg' => $ex->getMessage()]);
