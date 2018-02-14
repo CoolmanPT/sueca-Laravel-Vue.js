@@ -45,6 +45,7 @@
                 activeGames: [],
                 socketId: "",
                 isOpen: false,
+                deckID:0,
                 
                 
 
@@ -108,6 +109,18 @@
 
         },
         methods: {
+            getrandomDeck() {
+                axios.get('/api/deck/random', )
+                    .then((response) => {
+                        console.log("a" + response.data.id );
+                        return this.deckID = response.data.id;
+                        
+
+                    })
+                    .catch((error) => {
+                        console.log(error.response);
+                    });
+            },
             getUserStatistic() 
             {
                 console.log(this.currentPlayer);
@@ -127,7 +140,7 @@
                 this.$socket.emit('get_my_activegames');
             },
             createGame() {
-                console.log("MY ID: " + this.user.id);
+                console.log("MY ID: " + this.user.id + this.deckID);
                 if (this.user.id == "") {
                     alert('Current Player is Empty - Cannot Create a Game');
                     return;
@@ -135,8 +148,13 @@
                     this.$socket.emit('create_game', {
                         playerName: this.user.nickname,
                         playerID: this.user.id,
+                        deckID: this.deckID,
+                        
+
                     });
+                    
                 }
+                
             },
             join(game) {
                 console.log("MY ID: " + this.user.id);
@@ -198,12 +216,14 @@
         created(){
            this.currentPlayer = this.user.id;
             this.loadLobby();
-            console.log(this.currentPlayer);
+            this.getrandomDeck();
         }
+
 
 
     }
 </script>
 
 <style>
+
 </style>

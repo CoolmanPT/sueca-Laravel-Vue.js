@@ -4,100 +4,102 @@ var axios = require('axios');
 var apiBaseURL = "http://recurso.rip/api/";
 
 class GameList {
-	constructor() {
+    constructor() {
         this.games = new Map();
     }
 
     gameByID(gameID) {
-    	let game = this.games.get(gameID);
-    	return game;
+        let game = this.games.get(gameID);
+        return game;
     }
 
-    createGame(playerID, playerName, socketID, callback) {
-		//console.log("Gamelist: " + "" +playerID + "" +playerName + "" +socketID)
-        let game = new GameSueca(playerID, playerName, socketID);
+    createGame(playerID, playerName, socketID, deckID, callback) {
+        console.log("Gamelist: " + "" + playerID + "" + playerName + "" + socketID + "" + deckID)
+        let game = new GameSueca(playerID, playerName, socketID, deckID);
         const data = {
             'created_by': game.creatorId,
-            'deck_used': game.deckId
+            'deck_used': game.deck
         }
+        console.log("before axios:" + game.deck)
         axios.post(apiBaseURL + 'game/create', data)
-        .then(response => {
+            .then(response => {
+                game.deck = response.data.game['deck_used'];
+                game.gameID = response.data.game['id'];
 
-            game.gameID = response.data.game['id'];
+                game.createdAt = response.data.game['created_at'];
 
-            this.games.set(game.gameID, game);
+                this.games.set(game.gameID, game);
 
-            callback(game);
+                callback(game);
 
-        })
-        .catch(error => {
-         console.log(error.response.data); 
-     });
+            })
+            .catch(error => {
+                console.log(error.response.data);
+            });
     }
 
     joinGame(gameID, playerID, playerName, socketID) {
-    	let game = this.gameByID(gameID);
-    	if (game === null) {
-    		return null;
+        let game = this.gameByID(gameID);
+        if (game === null) {
+            return null;
         } else {
-            if(game.join(playerID, playerName, socketID)){
+            if (game.join(playerID, playerName, socketID)) {
                 return game;
-            }
-            else{
+            } else {
                 return false;
             }
         }
     }
 
 
-    startGame(gameID){
-      let game = this.gameByID(gameID);
-      
+    startGame(gameID) {
+        let game = this.gameByID(gameID);
 
-      game.startGame();
 
-      return game;
-  }
+        game.startGame();
 
-  removeGame(gameID, socketID) {
-   let game = this.gameByID(gameID);
-   if (game===null) {
-      return null;
-  }
-  if (game.player1SocketID == socketID) {
-      game.player1SocketID = "";
-  } else if (game.player2SocketID == socketID) {
-      game.player2SocketID = "";
-  } 
-  if ((game.player1SocketID === "") && (game.player2SocketID === "")) {
-      this.games.delete(gameID);
-  }
-  return game;
-}
-
-getConnectedGamesOf(socketID) {
-   let games = [];
-   for (var [key, value] of this.games) {
-     value.players.forEach(function (player) {
-        if (player.socketID == socketID) {
-         games.push(value);
-     }
- });
- }
- return games;
-}
-
-getLobbyGamesOf(socketID) {
-   let games = [];
-   for (var [key, value] of this.games) {
-      if ((!value.gameStarted) && (!value.gameEnded))  {
-         if ((value.player1SocketID != socketID) && (value.player2SocketID != socketID)&& (value.player3SocketID != socketID)&& (value.player4SocketID != socketID)) {
-            games.push(value);
-        }
+        return game;
     }
-}
-return games;
-}
+
+    removeGame(gameID, socketID) {
+        let game = this.gameByID(gameID);
+        if (game === null) {
+            return null;
+        }
+        if (game.player1SocketID == socketID) {
+            game.player1SocketID = "";
+        } else if (game.player2SocketID == socketID) {
+            game.player2SocketID = "";
+        }
+        if ((game.player1SocketID === "") && (game.player2SocketID === "")) {
+            this.games.delete(gameID);
+        }
+        return game;
+    }
+
+    getConnectedGamesOf(socketID) {
+        let games = [];
+        for (var [key, value] of this.games) {
+            value.players.forEach(function(player) {
+                if (player.socketID == socketID) {
+                    games.push(value);
+                }
+            });
+        }
+        return games;
+    }
+
+    getLobbyGamesOf(socketID) {
+        let games = [];
+        for (var [key, value] of this.games) {
+            if ((!value.gameStarted) && (!value.gameEnded)) {
+                if ((value.player1SocketID != socketID) && (value.player2SocketID != socketID) && (value.player3SocketID != socketID) && (value.player4SocketID != socketID)) {
+                    games.push(value);
+                }
+            }
+        }
+        return games;
+    }
 }
 
 module.exports = GameList;

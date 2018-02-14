@@ -15,9 +15,6 @@
             </div>
             <h3 class="text-center bg-danger text-white font-weight-bold">PONTOS DA TUA EQUIPA - {{ game.team2Points }}</h3>
 
-
-
-
         </div>
         <div class="board container-fluid">
             <!-- TEAMMATE HAND -->
@@ -130,52 +127,62 @@
 </template>
 
 <script type="text/javascript">
-    export default {
-        props: ['game'],
-        data: function () {
-            return {
-                input: "",
-                messages: "",
-                alertType:'alert-info',
+export default {
+  props: ["game",'deckName'],
+  data: function() {
+    return {
+      input: "",
+      messages: "",
+      alertType: "alert-info",
+    };
+  },
+  computed: {
+    isDisabled: function() {
+      return this.game.playerTurn != this.game.players[3].playerID;
+    },
+    message: function() {
+      if (!this.game.gameStarted) {
+        messages = "Game not started yet. Waiting for players... ";
+      } else if (this.game.gameEnded) {
+        if (this.game.winnerTeam === 1) {
+          this.alertType = "alert-success";
+          messages = "Your TEAM LOST!!";
+        } else {
+          if (this.game.winnerTeam === 2) {
+            this.alertType = "alert-danger";
+            messages = "You TEAM won!!";
+          } else {
+            if (this.game.teamsTied) {
+              this.alertType = "alert-warning";
+              messages = "You TIED!!";
             }
-        },
-        computed: {
-            isDisabled: function(){
-                return this.game.playerTurn != this.game.players[3].playerID;
-            },
-            message: function () {
-                if(!this.game.gameStarted){
-                    messages="Game not started yet. Waiting for players... ";
-                }else if(this.game.gameEnded){
-                    if(this.game.winnerTeam === 1){
-                        this.alertType='alert-success';
-                        messages="Your TEAM LOST!!";
-                    }else{
-                        if(this.game.winnerTeam === 2){
-                            this.alertType='alert-danger';
-                            messages="You TEAM won!!";
-                        }else{
-                            if(this.game.teamsTied){
-                                this.alertType='alert-warning';
-                                messages="You TIED!!";
-                            }
-                        }
-                    }
-                }
-                return "";
-            },
-        },
-        methods: {
-            play(index) {
-                this.$emit('play', index);
-            },
-            desconfiar() {
-                this.$emit('desconfiar');
-            },
-            cardImageURL(cardNumber) {
-                var imgSrc = String(cardNumber);
-                return 'img/cards/' + imgSrc + '.png';
-            },
+          }
         }
+      }
+      return "";
     }
+  },
+  methods: {
+    play(index) {
+      this.$emit("play", index);
+    },
+    desconfiar() {
+      this.$emit("desconfiar");
+    },
+    getDeckName() {
+      axios
+        .get("/api/deckname/" + this.game.deck)
+        .then(response => {
+          return (this.deckName = response.data.name);
+        })
+        .catch(error => {
+          this.serverErrorCode = error.response.data.msg;
+        });
+    },  
+    cardImageURL(cardNumber) {
+      var imgSrc = String(cardNumber);
+      return "img/decks/" + this.deckName + "/" + imgSrc + ".png";
+    }
+  },
+};
 </script>

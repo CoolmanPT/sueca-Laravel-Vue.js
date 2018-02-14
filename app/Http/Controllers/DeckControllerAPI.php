@@ -235,4 +235,12 @@ class DeckControllerAPI extends Controller
 			return response()->json(['deck' => $deck], 200);
 		}
     }
+
+    public function getRandomDeck() {
+        try{
+            return Deck::inRandomOrder()->first(['id']);
+        } catch (\Exception $ex){
+            return response()->json($ex->getmessage());
+        }
+    }
 }

@@ -55,14 +55,16 @@ Route::middleware('auth:api', 'isAdmin')->post('newDeck', 'DeckControllerAPI@new
 Route::middleware('auth:api', 'isAdmin')->post('addallcards', 'DeckControllerAPI@addAllCards');
 Route::middleware('auth:api', 'isAdmin')->delete('deletedeck/{id}', 'DeckControllerAPI@deleteDeck');
 Route::middleware('auth:api', 'isAdmin')->get('getcurrentdeck/{id}', 'DeckControllerAPI@getCurrentDeck');
-Route::middleware('auth:api', 'isAdmin')->put('editcard/{id}', 'DeckControllerAPI@editCardImage');
 Route::middleware('auth:api', 'isAdmin')->put('editdeckimg/{id}', 'DeckControllerAPI@editDeckImg');
+Route::middleware('auth:api', 'isAdmin')->put('editcard/{id}', 'DeckControllerAPI@editCardImage');
+Route::middleware('auth:api', 'isPlayer')->get('deck/random', 'DeckControllerAPI@getRandomDeck');
+
 
 Route::post('/game/create', 'GameControllerAPI@create');
 Route::post('/game/join', 'GameControllerAPI@join');
 Route::put('/game/start', 'GameControllerAPI@start');
 Route::put('game/results', 'GameControllerAPI@results');
 Route::put('/game/renuncia', 'GameControllerAPI@renuncia');
-
+Route::get('/deckname/{id}', 'GameControllerAPI@getDeckName');
 
 

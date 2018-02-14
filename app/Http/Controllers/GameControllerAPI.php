@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Game;
+use App\Deck;
 
 class GameControllerAPI extends Controller
 {
@@ -137,6 +138,17 @@ class GameControllerAPI extends Controller
 			return response()->json(['msg' => 'Game Finished'], 200);
 		}
 
+	}
+
+	public function getDeckName(string $id){
+		try{
+			$deck = Deck::findOrFail($id);
+			$deckName = $deck->name;
+
+			return response()->json(['name' => $deckName], 200);
+		} catch (\Exception $ex){
+
+		}
 	}
 	
 }
